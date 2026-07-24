@@ -374,9 +374,15 @@ def save_state(s: dict) -> None:
     STATE_FILE.write_text(json.dumps(s))
 
 
+NTFY_PRIORITIES = {"min": 1, "low": 2, "default": 3, "high": 4, "urgent": 5, "max": 5}
+
+
 def send_ntfy(cfg, topic, title, message, click="", tags=None, priority="default"):
     server = (cfg.get("NTFY_SERVER") or "https://ntfy.sh").rstrip("/")
-    p = {"topic": topic, "title": title, "message": message, "priority": priority}
+    # ntfy's JSON API only accepts an integer 1-5 here; a string priority
+    # (even a documented alias like "urgent") makes the whole request 400.
+    p = {"topic": topic, "title": title, "message": message,
+         "priority": NTFY_PRIORITIES.get(priority, priority)}
     if click:
         p["click"] = click
     if tags:
