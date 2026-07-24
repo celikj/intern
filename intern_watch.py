@@ -375,7 +375,7 @@ def save_state(s: dict) -> None:
 
 
 def send_ntfy(cfg, topic, title, message, click="", tags=None, priority="default"):
-    server = cfg.get("NTFY_SERVER", "https://ntfy.sh").rstrip("/")
+    server = (cfg.get("NTFY_SERVER") or "https://ntfy.sh").rstrip("/")
     p = {"topic": topic, "title": title, "message": message, "priority": priority}
     if click:
         p["click"] = click
