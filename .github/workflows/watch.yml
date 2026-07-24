@@ -2,8 +2,8 @@ name: intern-watch
 
 on:
   schedule:
-    # Every 15 minutes. (GitHub can delay this under load, see the note below.)
-    - cron: "*/15 * * * *"
+    # Every 5 hours. (GitHub can delay this under load, see the note below.)
+    - cron: "0 */5 * * *"
   workflow_dispatch:        # manual run button in the Actions tab
     inputs:
       mode:
