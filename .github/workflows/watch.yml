@@ -2,18 +2,18 @@ name: intern-watch
 
 on:
   schedule:
-    # Her 15 dakikada bir. (GitHub yoğunlukta gecikebilir, aşağıdaki nota bak.)
+    # Every 15 minutes. (GitHub can delay this under load, see the note below.)
     - cron: "*/15 * * * *"
-  workflow_dispatch:        # Actions sekmesinden elle çalıştırma düğmesi
+  workflow_dispatch:        # manual run button in the Actions tab
     inputs:
       mode:
-        description: "Çalışma modu"
+        description: "Run mode"
         required: false
         default: "normal"
         type: choice
         options: [normal, seed, faang-only, dry-run]
 
-# state.json'u repo'ya geri commit edebilmek için yazma izni
+# write permission so state.json can be committed back to the repo
 permissions:
   contents: write
 
@@ -27,32 +27,32 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Repo'yu çek
+      - name: Check out repo
         uses: actions/checkout@v4
 
-      - name: Python kur
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Taramayı çalıştır
+      - name: Run scan
         env:
-          # state.json repo kökünde tutulur
+          # state.json is kept in the repo root
           INTERN_WATCH_HOME: ${{ github.workspace }}/state
 
-          # --- Bildirim (GitHub Secrets'tan gelir) ---
+          # --- Notifications (from GitHub Secrets) ---
           NTFY_TOPIC:       ${{ secrets.NTFY_TOPIC }}
           NTFY_TOPIC_FAANG: ${{ secrets.NTFY_TOPIC_FAANG }}
           NTFY_SERVER:      ${{ secrets.NTFY_SERVER }}
 
-          # --- E-posta (opsiyonel) ---
+          # --- Email (optional) ---
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           TO_EMAIL:  ${{ secrets.TO_EMAIL }}
 
-          # --- Filtreler (Variables'tan; yoksa varsayılan) ---
+          # --- Filters (from Variables; defaults otherwise) ---
           SEASONS:             ${{ vars.SEASONS             || '2027' }}
           REGIONS:             ${{ vars.REGIONS             || 'all' }}
           CATEGORIES:          ${{ vars.CATEGORIES          || '' }}
@@ -68,16 +68,16 @@ jobs:
           esac
           python3 intern_watch.py $FLAG
 
-      - name: Görülen ilanları kaydet
+      - name: Save seen listings
         run: |
           if [ -n "$(git status --porcelain state/)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add state/
             git commit -m "state: $(date -u '+%Y-%m-%d %H:%M UTC')"
-            # Eşzamanlı çalışmalarda çakışma olursa rebase edip tekrar dene
+            # retry with rebase if concurrent runs conflict
             git pull --rebase --autostash || true
-            git push || echo "push başarısız, sonraki çalıştırmada tekrar denenecek"
+            git push || echo "push failed, will retry on the next run"
           else
-            echo "Yeni ilan yok, state değişmedi."
+            echo "No new listings, state unchanged."
           fi
