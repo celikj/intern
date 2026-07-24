@@ -57,7 +57,7 @@ jobs:
           REGIONS:             ${{ vars.REGIONS             || 'all' }}
           CATEGORIES:          ${{ vars.CATEGORIES          || '' }}
           EXCLUDE_SPONSORSHIP: ${{ vars.EXCLUDE_SPONSORSHIP || 'no-sponsorship,citizens-only' }}
-          TITLE_EXCLUDE:       ${{ vars.TITLE_EXCLUDE       || "phd,ph.d,masters,master's,mba" }}
+          TITLE_EXCLUDE:       ${{ vars.TITLE_EXCLUDE       || 'phd,ph.d,masters,master''s,mba' }}
           NTFY_MAX_PER_RUN:    ${{ vars.NTFY_MAX_PER_RUN    || '12' }}
         run: |
           case "${{ inputs.mode }}" in
