@@ -41,7 +41,7 @@ git push -u origin main
 ```
 
 > **Public or private?** Scheduled workflows on public repos are unlimited and free.
-> A private repo eats into your monthly Actions minutes (2,000 min/month on the free plan — running every 15 min will burn through that).
+> A private repo eats into your monthly Actions minutes (2,000 min/month on the free plan), but at every-5-hours this uses only a few minutes a day either way.
 > Your notification topics are already stored in Secrets, so they stay hidden even if the repo is public.
 
 ### 2. Set up your phone
@@ -88,7 +88,7 @@ This marks all current postings as "seen" and commits them as `state/state.json`
 
 ### 6. Done
 
-From here it runs automatically every 15 minutes. Only genuinely **new** postings trigger a notification.
+From here it runs automatically every 5 hours. Only genuinely **new** postings trigger a notification.
 
 ---
 
@@ -109,7 +109,7 @@ It shows how many postings were found, how many are new, and how many are FAANG+
 
 ## Good to know
 
-- **Cron delay:** GitHub can delay scheduled jobs under load; even with `*/15` it can sometimes be 20-30 minutes. Not precise enough if you need guaranteed minute-level timing, but plenty for "catch it the same day."
+- **Cron delay:** GitHub can delay scheduled jobs under load, but at a 5-hour cadence an occasional delay doesn't matter.
 - **60-day rule:** If a repo has zero activity for 60 days, GitHub disables its scheduled workflows and emails you. This system commits state on every new posting, so it normally won't trigger — but if you do get that email, re-enable it with one click from Actions.
 - **New season:** You'll get notified when `SimplifyJobs/Summer2027-Internships` opens. To add it to the source list, add a line to `SOURCES` in `intern_watch.py`.
 - **Visa reality check:** Most sources are US-focused. US internships usually require students enrolled in the US (F-1/CPT). If you're in Europe, `REGIONS=eu` will give more relevant results.
