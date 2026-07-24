@@ -1,26 +1,26 @@
 #!/usr/bin/env python3
 """
-intern_watch.py v3 — Çok kaynaklı staj erken-uyarı sistemi.
-FAANG+ ayrı kanal (yüksek öncelik) + Avrupa kaynakları.
+intern_watch.py v3 — Multi-source internship early-warning system.
+FAANG+ gets a separate channel (high priority) + European sources.
 
-KAYNAKLAR
-  engine       zshah101 Internship Engine JSON API (3.870 şirket, saatlik, ABD)
-  speedy_usa   speedyapply/2027-SWE-College-Jobs README.md      (ABD, FAANG+/Quant/Other bölümlü)
-  speedy_intl  speedyapply/2027-SWE-College-Jobs INTERN_INTL.md (ULUSLARARASI - Avrupa burada)
-  speedy_ai    speedyapply/2027-AI-College-Jobs   INTERN_INTL.md (AI/ML, uluslararası)
-  vansh        vanshb03/Summer2027-Internships                  (ABD/Kanada, topluluk)
-  eu           LorenzoLaCorte/european-tech-internships-2026     (Avrupa, topluluk)
+SOURCES
+  engine       zshah101 Internship Engine JSON API (3,870 companies, hourly, US)
+  speedy_usa   speedyapply/2027-SWE-College-Jobs README.md      (US, split into FAANG+/Quant/Other)
+  speedy_intl  speedyapply/2027-SWE-College-Jobs INTERN_INTL.md (INTERNATIONAL - Europe is here)
+  speedy_ai    speedyapply/2027-AI-College-Jobs   INTERN_INTL.md (AI/ML, international)
+  vansh        vanshb03/Summer2027-Internships                  (US/Canada, community)
+  eu           LorenzoLaCorte/european-tech-internships-2026     (Europe, community)
 
-FAANG+ TESPİTİ
-  - speedyapply dosyalarında "### FAANG+" bölümü doğrudan okunur.
-  - Diğer kaynaklarda FAANG_COMPANIES listesiyle şirket adı eşleştirilir.
-  FAANG+ ilanlar AYRI ve YÜKSEK ÖNCELİKLİ bildirim olarak gider
-  (istersen ayrı bir ntfy topic'ine: NTFY_TOPIC_FAANG).
+FAANG+ DETECTION
+  - In speedyapply files, the "### FAANG+" section is read directly.
+  - In other sources, company names are matched against the FAANG_COMPANIES list.
+  FAANG+ listings are sent as a SEPARATE, HIGH-PRIORITY notification
+  (optionally to its own ntfy topic: NTFY_TOPIC_FAANG).
 
-Kullanım
-  python3 intern_watch.py --dry-run     # bildirim atmadan göster
-  python3 intern_watch.py --seed        # mevcutları "görüldü" işaretle
-  python3 intern_watch.py --faang-only  # sadece FAANG+ bildir
+Usage
+  python3 intern_watch.py --dry-run     # show without sending notifications
+  python3 intern_watch.py --seed        # mark existing listings as "seen"
+  python3 intern_watch.py --faang-only  # only notify FAANG+
   python3 intern_watch.py               # normal
 """
 
@@ -51,7 +51,7 @@ EU_REPO = f"{RAW}/LorenzoLaCorte/european-tech-internships-2026/main/README.md"
 WATCH_REPOS = [("SimplifyJobs/Summer2027-Internships", "dev/README.md")]
 
 # --------------------------------------------------------------------------
-# FAANG+ şirket listesi (speedyapply bölümü olmayan kaynaklarda eşleştirme için)
+# FAANG+ company list (for matching in sources without a speedyapply section)
 # --------------------------------------------------------------------------
 FAANG_COMPANIES = {
     "google", "alphabet", "deepmind", "google deepmind", "youtube",
@@ -95,7 +95,7 @@ EU_KEYWORDS = [
 ]
 
 # --------------------------------------------------------------------------
-# Filtre ayarları
+# Filter settings
 # --------------------------------------------------------------------------
 SEASONS = [s.strip() for s in os.environ.get("SEASONS", "2027").split(",") if s.strip()]
 CATEGORIES = [c.strip() for c in os.environ.get("CATEGORIES", "").split(",") if c.strip()]
@@ -103,7 +103,7 @@ EXCLUDE_SPONSORSHIP = [s.strip() for s in os.environ.get(
     "EXCLUDE_SPONSORSHIP", "no-sponsorship,citizens-only").split(",") if s.strip()]
 TITLE_INCLUDE = [k.strip().lower() for k in os.environ.get("TITLE_INCLUDE", "").split(",") if k.strip()]
 TITLE_EXCLUDE = [k.strip().lower() for k in os.environ.get("TITLE_EXCLUDE", "").split(",") if k.strip()]
-# REGIONS: all / eu   (eu -> sadece Avrupa konumlu ilanlar)
+# REGIONS: all / eu   (eu -> only Europe-located listings)
 REGIONS = [r.strip().lower() for r in os.environ.get("REGIONS", "all").split(",") if r.strip()]
 NTFY_MAX_PER_RUN = int(os.environ.get("NTFY_MAX_PER_RUN", "12"))
 
@@ -184,11 +184,11 @@ def md_url(cell: str) -> str:
 
 
 def parse_speedy(md: str, source_name: str) -> list[Job]:
-    """speedyapply: '### FAANG+' / '### Quant' / '### Other' bölümlü.
-    Sütun düzeni dosyaya göre DEĞİŞİR:
+    """speedyapply: split into '### FAANG+' / '### Quant' / '### Other'.
+    Column layout VARIES by file:
       USA : Company | Position | Location | Salary | Posting | Age
-      INTL: Company | Position | Location | Posting | Age      (Salary yok)
-    Bu yüzden başlık satırından sütun indeksleri çıkarılır."""
+      INTL: Company | Position | Location | Posting | Age      (no Salary)
+    So column indexes are derived from the header row."""
     jobs, section, last_company = [], "", ""
     cols: dict[str, int] = {}
 
@@ -203,7 +203,7 @@ def parse_speedy(md: str, source_name: str) -> list[Job]:
             continue
         cells = [c.strip() for c in m.group(1).split("|")]
 
-        # başlık satırı -> sütun haritasını güncelle
+        # header row -> update the column map
         names = [md_clean(c).lower() for c in cells]
         if "company" in names and ("position" in names or "role" in names):
             cols = {n: i for i, n in enumerate(names)}
@@ -283,8 +283,8 @@ def parse_vansh(md: str) -> list[Job]:
 
 
 def parse_eu(md: str) -> list[Job]:
-    """LorenzoLaCorte: company|title|location|link (küçük harf).
-    Sadece staj bölümleri; New Grad / PhD atlanır."""
+    """LorenzoLaCorte: company|title|location|link (lowercase).
+    Internship sections only; New Grad / PhD are skipped."""
     jobs, section = [], ""
     for line in md.splitlines():
         h = HEADER_RE.match(line.strip())
@@ -408,8 +408,8 @@ def notify_group(cfg, jobs, group, topic, tags, priority):
         else:
             lines = [f"• {j.label()}" for j in jobs[:40]]
             if len(jobs) > 40:
-                lines.append(f"... +{len(jobs)-40} daha")
-            send_ntfy(cfg, topic, f"{group} {len(jobs)} yeni ilan",
+                lines.append(f"... +{len(jobs)-40} more")
+            send_ntfy(cfg, topic, f"{group} {len(jobs)} new listings",
                       "\n".join(lines), tags=tags, priority=priority)
     if cfg["_has_email"]:
         body = []
@@ -419,7 +419,7 @@ def notify_group(cfg, jobs, group, topic, tags, priority):
             if meta:
                 body.append(f"  {meta}")
             body.append(f"  {j.url}\n")
-        send_email(cfg, f"{group} {len(jobs)} yeni staj ilanı", "\n".join(body))
+        send_email(cfg, f"{group} {len(jobs)} new internship listings", "\n".join(body))
 
 
 def load_config() -> dict:
@@ -428,7 +428,7 @@ def load_config() -> dict:
                           ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "TO_EMAIL"))
     c["_has_ntfy"] = bool(c.get("NTFY_TOPIC"))
     if not c["_has_email"] and not c["_has_ntfy"]:
-        sys.exit("Bildirim kanalı yok: NTFY_TOPIC veya SMTP_* ayarla.")
+        sys.exit("No notification channel configured: set NTFY_TOPIC or SMTP_*.")
     return c
 
 
@@ -444,7 +444,7 @@ def main() -> None:
             all_jobs.extend(g)
             print(f"[{name}] {len(g)}", file=sys.stderr)
         except Exception as e:
-            print(f"[{name}] HATA: {e}", file=sys.stderr)
+            print(f"[{name}] ERROR: {e}", file=sys.stderr)
 
     uniq = {}
     for j in all_jobs:
@@ -469,11 +469,11 @@ def main() -> None:
     faang_new = [j for j in new if j.is_faang]
     other_new = [j for j in new if not j.is_faang]
 
-    print(f"\ntoplam {len(all_jobs)} | tekil {len(uniq)} | filtre {len(jobs)} | "
-          f"YENİ {len(new)} (FAANG+ {len(faang_new)} / diğer {len(other_new)})", file=sys.stderr)
+    print(f"\ntotal {len(all_jobs)} | unique {len(uniq)} | filtered {len(jobs)} | "
+          f"NEW {len(new)} (FAANG+ {len(faang_new)} / other {len(other_new)})", file=sys.stderr)
 
     if dry:
-        for grp, lst in (("🔥 FAANG+", faang_new), ("🆕 Diğer", other_new)):
+        for grp, lst in (("🔥 FAANG+", faang_new), ("🆕 Other", other_new)):
             if not lst:
                 continue
             print(f"\n===== {grp} ({len(lst)}) =====")
@@ -484,7 +484,7 @@ def main() -> None:
                     print(f"    {meta}")
                 print(f"    {j.url}")
     elif seed:
-        print("--seed: işaretlendi, bildirim gönderilmedi.", file=sys.stderr)
+        print("--seed: marked as seen, no notifications sent.", file=sys.stderr)
     else:
         cfg = load_config()
         faang_topic = cfg.get("NTFY_TOPIC_FAANG") or cfg.get("NTFY_TOPIC")
@@ -497,8 +497,8 @@ def main() -> None:
             if repo in state["repos_announced"]:
                 continue
             if http_exists(f"{RAW}/{repo}/{path}"):
-                send_ntfy(cfg, cfg.get("NTFY_TOPIC"), f"🎉 {repo} açıldı!",
-                          "Yeni sezon repo'su yayınlandı.",
+                send_ntfy(cfg, cfg.get("NTFY_TOPIC"), f"🎉 {repo} is live!",
+                          "New season repo has been published.",
                           click=f"https://github.com/{repo}",
                           tags=["tada"], priority="high")
                 state["repos_announced"].append(repo)
