@@ -381,9 +381,14 @@ def send_ntfy(cfg, topic, title, message, click="", tags=None, priority="default
         p["click"] = click
     if tags:
         p["tags"] = tags
-    urllib.request.urlopen(urllib.request.Request(
-        server, data=json.dumps(p).encode(),
-        headers={"Content-Type": "application/json"}), timeout=15)
+    try:
+        urllib.request.urlopen(urllib.request.Request(
+            server, data=json.dumps(p).encode(),
+            headers={"Content-Type": "application/json"}), timeout=15)
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode("utf-8", errors="replace")
+        print(f"ntfy {e.code} for topic {topic!r}: {detail}", file=sys.stderr)
+        raise
 
 
 def send_email(cfg, subject, body):
