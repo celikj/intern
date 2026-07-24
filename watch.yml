@@ -1,0 +1,83 @@
+name: intern-watch
+
+on:
+  schedule:
+    # Her 15 dakikada bir. (GitHub yoğunlukta gecikebilir, aşağıdaki nota bak.)
+    - cron: "*/15 * * * *"
+  workflow_dispatch:        # Actions sekmesinden elle çalıştırma düğmesi
+    inputs:
+      mode:
+        description: "Çalışma modu"
+        required: false
+        default: "normal"
+        type: choice
+        options: [normal, seed, faang-only, dry-run]
+
+# state.json'u repo'ya geri commit edebilmek için yazma izni
+permissions:
+  contents: write
+
+concurrency:
+  group: intern-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Repo'yu çek
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Taramayı çalıştır
+        env:
+          # state.json repo kökünde tutulur
+          INTERN_WATCH_HOME: ${{ github.workspace }}/state
+
+          # --- Bildirim (GitHub Secrets'tan gelir) ---
+          NTFY_TOPIC:       ${{ secrets.NTFY_TOPIC }}
+          NTFY_TOPIC_FAANG: ${{ secrets.NTFY_TOPIC_FAANG }}
+          NTFY_SERVER:      ${{ secrets.NTFY_SERVER }}
+
+          # --- E-posta (opsiyonel) ---
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TO_EMAIL:  ${{ secrets.TO_EMAIL }}
+
+          # --- Filtreler (Variables'tan; yoksa varsayılan) ---
+          SEASONS:             ${{ vars.SEASONS             || '2027' }}
+          REGIONS:             ${{ vars.REGIONS             || 'all' }}
+          CATEGORIES:          ${{ vars.CATEGORIES          || '' }}
+          EXCLUDE_SPONSORSHIP: ${{ vars.EXCLUDE_SPONSORSHIP || 'no-sponsorship,citizens-only' }}
+          TITLE_EXCLUDE:       ${{ vars.TITLE_EXCLUDE       || "phd,ph.d,masters,master's,mba" }}
+          NTFY_MAX_PER_RUN:    ${{ vars.NTFY_MAX_PER_RUN    || '12' }}
+        run: |
+          case "${{ inputs.mode }}" in
+            seed)       FLAG="--seed" ;;
+            faang-only) FLAG="--faang-only" ;;
+            dry-run)    FLAG="--dry-run" ;;
+            *)          FLAG="" ;;
+          esac
+          python3 intern_watch.py $FLAG
+
+      - name: Görülen ilanları kaydet
+        run: |
+          if [ -n "$(git status --porcelain state/)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add state/
+            git commit -m "state: $(date -u '+%Y-%m-%d %H:%M UTC')"
+            # Eşzamanlı çalışmalarda çakışma olursa rebase edip tekrar dene
+            git pull --rebase --autostash || true
+            git push || echo "push başarısız, sonraki çalıştırmada tekrar denenecek"
+          else
+            echo "Yeni ilan yok, state değişmedi."
+          fi
