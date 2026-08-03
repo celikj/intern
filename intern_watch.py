@@ -96,6 +96,49 @@ EU_KEYWORDS = [
     "europe", "emea",
 ]
 
+# Turkey is kept no matter what: it wins over every EXCLUDE_REGIONS group below,
+# so an "Istanbul, Middle East" style location still comes through.
+TURKEY_KEYWORDS = [
+    "turkey", "türkiye", "turkiye", "istanbul", "ankara", "izmir", "bursa", "antalya",
+]
+
+# Location groups that can be dropped via EXCLUDE_REGIONS.
+# Matched on WORD BOUNDARIES, not substrings — "Romania" contains "oman" and
+# "Indiana" contains "india", both of which a naive `in` test would throw away.
+REGION_GROUPS = {
+    "middle-east": [
+        "middle east", "mena", "gulf",
+        "united arab emirates", "uae", "dubai", "abu dhabi", "sharjah",
+        "saudi arabia", "ksa", "riyadh", "jeddah", "dhahran", "dammam", "neom",
+        "qatar", "doha", "kuwait", "kuwait city", "bahrain", "manama",
+        "oman", "muscat", "yemen", "sanaa",
+        "israel", "tel aviv", "tel-aviv", "herzliya", "haifa", "jerusalem",
+        "ra'anana", "raanana", "yokneam", "petah tikva", "netanya", "beer sheva",
+        "jordan", "amman", "lebanon", "beirut", "syria", "damascus",
+        "iraq", "baghdad", "erbil", "iran", "tehran",
+    ],
+    "africa": [
+        "africa", "south africa", "cape town", "johannesburg", "pretoria", "durban",
+        "egypt", "cairo", "giza", "alexandria",
+        "morocco", "casablanca", "rabat", "marrakech",
+        "tunisia", "tunis", "algeria", "algiers",
+        "nigeria", "lagos", "abuja", "kenya", "nairobi",
+        "ghana", "accra", "ethiopia", "addis ababa", "uganda", "kampala",
+        "tanzania", "dar es salaam", "rwanda", "kigali", "senegal", "dakar",
+        "zimbabwe", "harare", "zambia", "lusaka", "mauritius", "namibia", "botswana",
+    ],
+    "south-asia": [
+        "south asia", "india", "bharat",
+        "bangalore", "bengaluru", "hyderabad", "pune", "chennai", "mumbai", "bombay",
+        "new delhi", "delhi", "noida", "gurgaon", "gurugram", "kolkata", "ahmedabad",
+        "jaipur", "kochi", "trivandrum", "thiruvananthapuram", "coimbatore", "indore",
+        "chandigarh", "mysore", "mysuru", "vizag", "visakhapatnam",
+        "pakistan", "karachi", "lahore", "islamabad",
+        "bangladesh", "dhaka", "sri lanka", "colombo",
+        "nepal", "kathmandu", "bhutan", "maldives", "afghanistan", "kabul",
+    ],
+}
+
 # --------------------------------------------------------------------------
 # Filter settings
 # --------------------------------------------------------------------------
@@ -107,7 +150,26 @@ TITLE_INCLUDE = [k.strip().lower() for k in os.environ.get("TITLE_INCLUDE", "").
 TITLE_EXCLUDE = [k.strip().lower() for k in os.environ.get("TITLE_EXCLUDE", "").split(",") if k.strip()]
 # REGIONS: all / eu   (eu -> only Europe-located listings)
 REGIONS = [r.strip().lower() for r in os.environ.get("REGIONS", "all").split(",") if r.strip()]
+# EXCLUDE_REGIONS: drop listings located in these groups. "none" keeps everything.
+EXCLUDE_REGIONS = [r.strip().lower() for r in os.environ.get(
+    "EXCLUDE_REGIONS", "middle-east,africa,south-asia").split(",")
+    if r.strip() and r.strip().lower() != "none"]
 NTFY_MAX_PER_RUN = int(os.environ.get("NTFY_MAX_PER_RUN", "12"))
+
+for _g in EXCLUDE_REGIONS:
+    if _g not in REGION_GROUPS:
+        print(f"EXCLUDE_REGIONS: unknown group {_g!r}, expected one of "
+              f"{', '.join(sorted(REGION_GROUPS))}", file=sys.stderr)
+
+
+def compile_keywords(keywords: list[str]) -> "re.Pattern":
+    """Word-boundary alternation, longest first so 'south africa' wins over 'africa'."""
+    parts = sorted(set(keywords), key=len, reverse=True)
+    return re.compile(r"\b(?:" + "|".join(re.escape(k) for k in parts) + r")\b")
+
+
+TURKEY_RE = compile_keywords(TURKEY_KEYWORDS)
+EXCLUDED_RE = {g: compile_keywords(k) for g, k in REGION_GROUPS.items()}
 
 
 US_KEYWORDS = [
@@ -158,6 +220,26 @@ class Job:
             if tail in US_STATES:
                 return True
         return False
+
+    @property
+    def excluded_region(self) -> str:
+        """Name of the EXCLUDE_REGIONS group this listing falls in, or "".
+
+        A posting open in several places ("Atlanta, GA / Bengaluru, India") is only
+        dropped when EVERY location is excluded — one reachable office is enough."""
+        loc = self.location.lower()
+        if not loc or TURKEY_RE.search(loc):
+            return ""
+        hit = ""
+        for part in (p.strip() for p in loc.split("/")):
+            if not part:
+                continue
+            found = next((g for g in EXCLUDE_REGIONS
+                          if g in EXCLUDED_RE and EXCLUDED_RE[g].search(part)), "")
+            if not found:
+                return ""      # this location is fine, keep the posting
+            hit = hit or found
+        return hit
 
     @property
     def region(self) -> str:
@@ -447,6 +529,8 @@ SOURCES = [
 def matches(job: Job) -> bool:
     if REGIONS and "all" not in REGIONS and "eu" in REGIONS and not job.is_eu:
         return False
+    if job.excluded_region:
+        return False
     if SEASONS and job.season:
         if not any(s.lower() in job.season.lower() for s in SEASONS):
             return False
@@ -538,6 +622,7 @@ def render_listings(jobs: list[Job]) -> str:
         ("REGIONS", ",".join(REGIONS) or "all"),
         ("CATEGORIES", ",".join(CATEGORIES) or "any"),
         ("EXCLUDE_SPONSORSHIP", ",".join(EXCLUDE_SPONSORSHIP) or "none"),
+        ("EXCLUDE_REGIONS", ",".join(EXCLUDE_REGIONS) or "none"),
     ))
     return "\n".join([
         README_START,
