@@ -21,6 +21,7 @@ Usage
   python3 intern_watch.py --dry-run     # show without sending notifications
   python3 intern_watch.py --seed        # mark existing listings as "seen"
   python3 intern_watch.py --faang-only  # only notify FAANG+
+  python3 intern_watch.py --readme      # only rewrite the README listing tables
   python3 intern_watch.py               # normal
 """
 
@@ -32,6 +33,7 @@ import sys
 import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
+from datetime import date, datetime, timedelta, timezone
 from email.mime.text import MIMEText
 from pathlib import Path
 
@@ -108,6 +110,21 @@ REGIONS = [r.strip().lower() for r in os.environ.get("REGIONS", "all").split(","
 NTFY_MAX_PER_RUN = int(os.environ.get("NTFY_MAX_PER_RUN", "12"))
 
 
+US_KEYWORDS = [
+    "united states", "usa", "u.s.", "remote - us", "washington dc", "washington, dc",
+    "new york", "san francisco", "seattle", "austin", "boston", "chicago", "atlanta",
+    "denver", "san jose", "sunnyvale", "mountain view", "palo alto", "santa clara",
+    "cupertino", "redmond", "bellevue", "los angeles", "san diego", "dallas", "houston",
+]
+# Two-letter US state codes, matched against the tail of a "City, ST" location.
+US_STATES = {
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN",
+    "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV",
+    "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
+    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC",
+}
+
+
 @dataclass
 class Job:
     uid: str
@@ -120,6 +137,8 @@ class Job:
     category: str = ""
     sponsorship: str = ""
     salary: str = ""
+    posted: str = ""          # ISO date "YYYY-MM-DD", best effort, "" if unknown
+    posted_raw: str = ""      # what the source actually said ("18d", "Jul 31", ...)
     is_faang: bool = False
     flags: list = field(default_factory=list)
 
@@ -127,6 +146,40 @@ class Job:
     def is_eu(self) -> bool:
         loc = self.location.lower()
         return any(k in loc for k in EU_KEYWORDS)
+
+    @property
+    def is_us(self) -> bool:
+        loc = self.location.lower()
+        if any(k in loc for k in US_KEYWORDS):
+            return True
+        # "Needham, MA" / "Remote - Santa Clara, CA +2"
+        for part in re.split(r"[/,+]", self.location):
+            tail = part.strip().split(" ")[-1].strip()
+            if tail in US_STATES:
+                return True
+        return False
+
+    @property
+    def region(self) -> str:
+        if self.is_eu:
+            return "🇪🇺 EU/UK"
+        if self.is_us:
+            return "🇺🇸 US"
+        return "🌍 Other"
+
+    @property
+    def visa(self) -> str:
+        """What the source says about work authorisation — never a guarantee,
+        just the strongest signal available."""
+        if self.sponsorship == "no-sponsorship":
+            return "🛂 No sponsorship"
+        if self.sponsorship == "citizens-only":
+            return "🇺🇸 Citizen/PR only"
+        if self.is_eu:
+            return "❔ EU/UK right to work"
+        if self.is_us:
+            return "❔ US F-1/CPT likely"
+        return "❔ Not stated"
 
     def label(self) -> str:
         s = f"{self.company} — {self.title}"
@@ -173,6 +226,53 @@ def md_clean(cell: str) -> str:
     t = MD_LINK_RE.sub(lambda m: m.group(1), t)
     t = TAG_RE.sub("", t)
     return t.replace("**", "").replace("&amp;", "&").strip()
+
+
+AGE_RE = re.compile(r"^\s*(\d+)\s*(h|hr|hrs|hour|hours|d|day|days|w|wk|wks|week|weeks|"
+                    r"mo|mos|month|months|y|yr|yrs|year|years)\s*$", re.I)
+AGE_DAYS = {"h": 0, "d": 1, "w": 7, "m": 30, "y": 365}
+
+
+def today_utc() -> date:
+    return datetime.now(timezone.utc).date()
+
+
+def age_to_date(txt: str) -> str:
+    """speedyapply's Age column: '18d' / '3mo' / '5h' -> ISO date."""
+    m = AGE_RE.match(md_clean(txt))
+    if not m:
+        return ""
+    unit = AGE_DAYS[m.group(2)[0].lower()]
+    return (today_utc() - timedelta(days=int(m.group(1)) * unit)).isoformat()
+
+
+def mmm_dd_to_date(txt: str) -> str:
+    """vanshb03's Date Posted column: 'Jul 31' -> ISO date.
+    The year is absent, so assume the most recent occurrence: anything that
+    would land in the future belongs to last year."""
+    t = md_clean(txt)
+    if not t:
+        return ""
+    today = today_utc()
+    for fmt in ("%b %d", "%B %d", "%b %d %Y", "%B %d %Y", "%Y-%m-%d"):
+        try:
+            d = datetime.strptime(t, fmt).date()
+        except ValueError:
+            continue
+        if "%Y" not in fmt:
+            d = d.replace(year=today.year)
+            if d > today + timedelta(days=2):
+                d = d.replace(year=today.year - 1)
+        return d.isoformat()
+    return ""
+
+
+def iso_to_date(txt: str) -> str:
+    """'2026-08-01T12:00:00-04:00' -> '2026-08-01'."""
+    if not txt:
+        return ""
+    m = re.match(r"(\d{4}-\d{2}-\d{2})", txt.strip())
+    return m.group(1) if m else ""
 
 
 def md_url(cell: str) -> str:
@@ -226,6 +326,7 @@ def parse_speedy(md: str, source_name: str) -> list[Job]:
         if not url.startswith("http") or not company:
             continue
 
+        age = md_clean(cell("age"))
         jobs.append(Job(
             uid=f"{source_name}:{url.split('?')[0]}",
             company=company,
@@ -233,6 +334,7 @@ def parse_speedy(md: str, source_name: str) -> list[Job]:
             location=md_clean(cell("location")),
             url=url, source=source_name,
             salary=md_clean(cell("salary")),
+            posted=age_to_date(age), posted_raw=age,
             category="AI/ML" if source_name.endswith("ai") else "Software",
             is_faang=section.startswith("faang") or is_faang_company(company),
         ))
@@ -274,9 +376,11 @@ def parse_vansh(md: str) -> list[Job]:
             sponsorship = "no-sponsorship"
         if "🇺🇸" in flags:
             sponsorship = "citizens-only"
+        posted_raw = md_clean(cells[4]) if len(cells) > 4 else ""
         jobs.append(Job(
             uid=f"vansh:{url.split('?')[0]}", company=company, title=title.strip(),
             location=md_clean(cells[2]), url=url, source="vansh",
+            posted=mmm_dd_to_date(posted_raw), posted_raw=posted_raw,
             sponsorship=sponsorship, flags=flags, is_faang=is_faang_company(company),
         ))
     return jobs
@@ -323,6 +427,8 @@ def fetch_engine() -> list[Job]:
             location=j.get("location", "").strip(), url=j.get("url", ""), source="engine",
             season=j.get("season", ""), category=j.get("category", ""),
             sponsorship=j.get("sponsorship", "unknown"), salary=j.get("salary") or "",
+            posted=iso_to_date(j.get("posted_at") or j.get("first_seen_at") or ""),
+            posted_raw=iso_to_date(j.get("posted_at") or j.get("first_seen_at") or ""),
             is_faang=is_faang_company(comp),
         ))
     return out
@@ -355,6 +461,129 @@ def matches(job: Job) -> bool:
     if TITLE_EXCLUDE and any(k in blob for k in TITLE_EXCLUDE):
         return False
     return True
+
+
+# --------------------------------------------------------------------------
+# README listing tables
+# --------------------------------------------------------------------------
+README_FILE = Path(os.environ.get("README_FILE", Path(__file__).with_name("README.md")))
+README_START = "<!-- LISTINGS:START -->"
+README_END = "<!-- LISTINGS:END -->"
+README_MAX_ROWS = int(os.environ.get("README_MAX_ROWS", "150"))
+
+SOURCE_LABELS = {
+    "engine": "engine", "speedy_usa": "speedy/US", "speedy_intl": "speedy/INTL",
+    "speedy_ai": "speedy/AI", "vansh": "vansh", "eu": "eu",
+}
+
+
+def sort_key(job: Job):
+    """Newest first; listings with no date sink to the bottom, alphabetically."""
+    return (0 if job.posted else 1, job.posted and _neg_date(job.posted),
+            job.company.lower(), job.title.lower())
+
+
+def _neg_date(iso: str) -> str:
+    """Invert an ISO date so a plain ascending sort puts newest first."""
+    return "".join(str(9 - int(c)) if c.isdigit() else c for c in iso)
+
+
+def cell(text: str, limit: int = 0) -> str:
+    t = " ".join(str(text).split()).replace("|", "\\|")
+    if limit and len(t) > limit:
+        t = t[: limit - 1].rstrip() + "…"
+    return t or "—"
+
+
+def age_label(job: Job) -> str:
+    if not job.posted:
+        return "—"
+    try:
+        days = (today_utc() - date.fromisoformat(job.posted)).days
+    except ValueError:
+        return job.posted
+    if days <= 0:
+        return f"{job.posted} (today)"
+    return f"{job.posted} ({days}d)"
+
+
+def render_table(jobs: list[Job]) -> str:
+    if not jobs:
+        return "_No listings match your filters right now._\n"
+    shown, hidden = jobs[:README_MAX_ROWS], jobs[README_MAX_ROWS:]
+    out = ["| Posted | Company | Role | Location | Region | Visa situation | Salary | Source |",
+           "|---|---|---|---|---|---|---|---|"]
+    for j in shown:
+        role = cell(j.title, 70)
+        role = f"[{role}]({j.url})" if j.url else role
+        out.append("| " + " | ".join([
+            age_label(j), cell(j.company, 32), role, cell(j.location, 40),
+            j.region, j.visa, cell(j.salary, 18),
+            SOURCE_LABELS.get(j.source, j.source),
+        ]) + " |")
+    if hidden:
+        out.append("")
+        out.append(f"_+{len(hidden)} older listings not shown "
+                   f"(raise `README_MAX_ROWS` to include them)._")
+    return "\n".join(out) + "\n"
+
+
+def render_listings(jobs: list[Job]) -> str:
+    ordered = sorted(jobs, key=sort_key)
+    faang = [j for j in ordered if j.is_faang]
+    other = [j for j in ordered if not j.is_faang]
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    filters = ", ".join(f"`{k}={v}`" for k, v in (
+        ("SEASONS", ",".join(SEASONS) or "any"),
+        ("REGIONS", ",".join(REGIONS) or "all"),
+        ("CATEGORIES", ",".join(CATEGORIES) or "any"),
+        ("EXCLUDE_SPONSORSHIP", ",".join(EXCLUDE_SPONSORSHIP) or "none"),
+    ))
+    return "\n".join([
+        README_START,
+        "",
+        "<!-- Generated by intern_watch.py — edits inside this block are overwritten. -->",
+        "",
+        f"## Current openings — {len(jobs)} listings",
+        "",
+        f"Last updated **{stamp}** · {len(faang)} FAANG+ · {len(other)} other · "
+        "sorted newest → oldest.",
+        "",
+        f"Active filters: {filters}",
+        "",
+        "**Visa column:** what the *source* claims, not legal advice. "
+        "🛂 = explicitly no sponsorship, 🇺🇸 = citizens/permanent residents only, "
+        "❔ = not stated — for US postings that usually still means enrolment at a "
+        "US school (F-1/CPT), and for EU/UK postings the local right to work.",
+        "",
+        f"### 🔥 FAANG+ ({len(faang)})",
+        "",
+        render_table(faang),
+        f"### 🆕 Other companies ({len(other)})",
+        "",
+        render_table(other),
+        README_END,
+        "",
+    ])
+
+
+def update_readme(jobs: list[Job]) -> None:
+    if not README_FILE.exists():
+        print(f"README not found at {README_FILE}, skipping table update", file=sys.stderr)
+        return
+    text = README_FILE.read_text(encoding="utf-8")
+    block = render_listings(jobs)
+    if README_START in text and README_END in text:
+        head, rest = text.split(README_START, 1)
+        _, tail = rest.split(README_END, 1)
+        new = head + block.rstrip("\n") + tail
+    else:
+        new = text.rstrip("\n") + "\n\n---\n\n" + block
+    if new != text:
+        README_FILE.write_text(new, encoding="utf-8")
+        print(f"README updated: {len(jobs)} listings", file=sys.stderr)
+    else:
+        print("README unchanged", file=sys.stderr)
 
 
 def load_state() -> dict:
@@ -447,6 +676,7 @@ def main() -> None:
     dry = "--dry-run" in sys.argv
     seed = "--seed" in sys.argv
     faang_only = "--faang-only" in sys.argv
+    readme_only = "--readme" in sys.argv
 
     all_jobs = []
     for name, fn in SOURCES:
@@ -467,12 +697,22 @@ def main() -> None:
                 uniq[k].salary = j.salary
             if j.season and not uniq[k].season:
                 uniq[k].season = j.season
+            # keep the earliest known posting date — sources disagree by a day or two
+            if j.posted and (not uniq[k].posted or j.posted < uniq[k].posted):
+                uniq[k].posted, uniq[k].posted_raw = j.posted, j.posted_raw
+            if j.sponsorship and uniq[k].sponsorship in ("", "unknown"):
+                uniq[k].sponsorship = j.sponsorship
         else:
             uniq[k] = j
 
-    jobs = [j for j in uniq.values() if matches(j)]
-    if faang_only:
-        jobs = [j for j in jobs if j.is_faang]
+    listed = [j for j in uniq.values() if matches(j)]
+    # --dry-run stays side-effect free unless the README is the point of the run
+    if readme_only or not dry:
+        update_readme(listed)
+    if readme_only:
+        return
+
+    jobs = [j for j in listed if j.is_faang] if faang_only else listed
 
     state = load_state()
     seen = set(state["seen"])
@@ -489,7 +729,8 @@ def main() -> None:
                 continue
             print(f"\n===== {grp} ({len(lst)}) =====")
             for j in lst:
-                meta = " | ".join(b for b in (j.season, j.category, j.sponsorship, j.salary) if b)
+                meta = " | ".join(b for b in (j.posted, j.season, j.category,
+                                              j.sponsorship, j.salary) if b)
                 print(f"- [{j.source}]{' 🇪🇺' if j.is_eu else ''} {j.label()}")
                 if meta:
                     print(f"    {meta}")
@@ -514,6 +755,10 @@ def main() -> None:
                           tags=["tada"], priority="high")
                 state["repos_announced"].append(repo)
 
+    if dry:
+        # --dry-run must not consume the "new" queue: persisting here would mark
+        # everything as seen and those postings would never notify.
+        return
     state["seen"] = sorted(seen | {j.uid for j in jobs})
     save_state(state)
 
