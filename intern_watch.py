@@ -143,6 +143,13 @@ REGION_GROUPS = {
 # Filter settings
 # --------------------------------------------------------------------------
 SEASONS = [s.strip() for s in os.environ.get("SEASONS", "2027").split(",") if s.strip()]
+YEAR_RE = re.compile(r"\b(20\d{2})\b")
+# "2026/27" and "2026-27" mean two academic years; spell the second one out so the
+# year check below sees it, otherwise a 2026/27 posting looks like 2026-only.
+SPLIT_YEAR_RE = re.compile(r"\b(20\d{2})\s*[/-]\s*(\d{2})\b")
+# Years named in SEASONS, e.g. ["Summer 2027"] -> {"2027"}. Empty disables the
+# title-year check, which is what a season filter like "Summer" alone should do.
+SEASON_YEARS = {y for s in SEASONS for y in YEAR_RE.findall(s)}
 CATEGORIES = [c.strip() for c in os.environ.get("CATEGORIES", "").split(",") if c.strip()]
 EXCLUDE_SPONSORSHIP = [s.strip() for s in os.environ.get(
     "EXCLUDE_SPONSORSHIP", "no-sponsorship,citizens-only").split(",") if s.strip()]
@@ -539,6 +546,12 @@ SOURCES = [
 ]
 
 
+def season_years(text: str) -> set:
+    """Every year named in a title/season string, with '2026/27' counted as both."""
+    expanded = SPLIT_YEAR_RE.sub(lambda m: f"{m.group(1)} 20{m.group(2)}", text)
+    return set(YEAR_RE.findall(expanded))
+
+
 def matches(job: Job) -> bool:
     if REGIONS and "all" not in REGIONS and "eu" in REGIONS and not job.is_eu:
         return False
@@ -548,6 +561,13 @@ def matches(job: Job) -> bool:
         return False
     if SEASONS and job.season:
         if not any(s.lower() in job.season.lower() for s in SEASONS):
+            return False
+    # Only the engine API fills in .season; speedyapply and vansh bury it in the
+    # title ("... - Fall 2026"), which is how 2026 postings used to slip through.
+    # A title naming several years counts as a match if any of them is wanted.
+    if SEASON_YEARS:
+        years = season_years(f"{job.title} {job.season}")
+        if years and not (years & SEASON_YEARS):
             return False
     if CATEGORIES and job.category:
         if not any(c.lower() == job.category.lower() for c in CATEGORIES):
