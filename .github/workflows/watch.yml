@@ -45,6 +45,10 @@ jobs:
           NTFY_TOPIC_FAANG: ${{ secrets.NTFY_TOPIC_FAANG }}
           NTFY_SERVER:      ${{ secrets.NTFY_SERVER }}
 
+          # --- New grad board (silent until NTFY_TOPIC_NEWGRAD is set) ---
+          NTFY_TOPIC_NEWGRAD:       ${{ secrets.NTFY_TOPIC_NEWGRAD }}
+          NTFY_TOPIC_NEWGRAD_FAANG: ${{ secrets.NTFY_TOPIC_NEWGRAD_FAANG }}
+
           # --- Email (optional) ---
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -74,16 +78,16 @@ jobs:
           esac
           python3 intern_watch.py $FLAG
 
-      - name: Save seen listings and README tables
+      - name: Save seen listings and board tables
         run: |
-          if [ -n "$(git status --porcelain state/ README.md)" ]; then
+          if [ -n "$(git status --porcelain state/ README.md NEW_GRAD.md)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add state/ README.md
+            git add state/ README.md NEW_GRAD.md
             git commit -m "listings: $(date -u '+%Y-%m-%d %H:%M UTC')"
             # retry with rebase if concurrent runs conflict
             git pull --rebase --autostash || true
             git push || echo "push failed, will retry on the next run"
           else
-            echo "No new listings, state and README unchanged."
+            echo "No new listings, state and boards unchanged."
           fi

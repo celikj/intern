@@ -50,6 +50,13 @@ SPEEDY_AI_INTL = f"{RAW}/speedyapply/2027-AI-College-Jobs/main/INTERN_INTL.md"
 VANSH = f"{RAW}/vanshb03/Summer2027-Internships/dev/README.md"
 EU_REPO = f"{RAW}/LorenzoLaCorte/european-tech-internships-2026/main/README.md"
 
+# New grad boards. Same column layouts as the internship files above, so they go
+# through the very same parsers.
+SPEEDY_NG_USA = f"{RAW}/speedyapply/2027-SWE-College-Jobs/main/NEW_GRAD_USA.md"
+SPEEDY_NG_INTL = f"{RAW}/speedyapply/2027-SWE-College-Jobs/main/NEW_GRAD_INTL.md"
+SPEEDY_NG_AI = f"{RAW}/speedyapply/2027-AI-College-Jobs/main/NEW_GRAD_INTL.md"
+VANSH_NG = f"{RAW}/vanshb03/New-Grad-2027/dev/README.md"
+
 WATCH_REPOS = [("SimplifyJobs/Summer2027-Internships", "dev/README.md")]
 
 # --------------------------------------------------------------------------
@@ -211,6 +218,7 @@ class Job:
     salary: str = ""
     posted: str = ""          # ISO date "YYYY-MM-DD", best effort, "" if unknown
     posted_raw: str = ""      # what the source actually said ("18d", "Jul 31", ...)
+    track: str = "intern"     # "intern" or "newgrad" — separate boards, separate topics
     is_faang: bool = False
     flags: list = field(default_factory=list)
 
@@ -280,7 +288,10 @@ class Job:
         if self.is_eu:
             return "❔ EU/UK right to work"
         if self.is_us:
-            return "❔ US F-1/CPT likely"
+            # F-1/CPT is an internship mechanism; a graduate hire needs OPT (which
+            # requires a US degree) or an H-1B, which is a different problem entirely.
+            return ("❔ US OPT/H-1B needed" if self.track == "newgrad"
+                    else "❔ US F-1/CPT likely")
         return "❔ Not stated"
 
     def label(self) -> str:
@@ -385,7 +396,7 @@ def md_url(cell: str) -> str:
     return m.group(2) if m else ""
 
 
-def parse_speedy(md: str, source_name: str) -> list[Job]:
+def parse_speedy(md: str, source_name: str, track: str = "intern") -> list[Job]:
     """speedyapply: split into '### FAANG+' / '### Quant' / '### Other'.
     Column layout VARIES by file:
       USA : Company | Position | Location | Salary | Posting | Age
@@ -436,14 +447,14 @@ def parse_speedy(md: str, source_name: str) -> list[Job]:
             location=md_clean(cell("location")),
             url=url, source=source_name,
             salary=md_clean(cell("salary")),
-            posted=age_to_date(age), posted_raw=age,
-            category="AI/ML" if source_name.endswith("ai") else "Software",
+            posted=age_to_date(age), posted_raw=age, track=track,
+            category="AI/ML" if "ai" in source_name.split("_") else "Software",
             is_faang=section.startswith("faang") or is_faang_company(company),
         ))
     return jobs
 
 
-def parse_vansh(md: str) -> list[Job]:
+def parse_vansh(md: str, source_name: str = "vansh", track: str = "intern") -> list[Job]:
     """vanshb03: Company | Role | Location | Application | Date"""
     jobs, last_company = [], ""
     for line in md.splitlines():
@@ -480,8 +491,8 @@ def parse_vansh(md: str) -> list[Job]:
             sponsorship = "citizens-only"
         posted_raw = md_clean(cells[4]) if len(cells) > 4 else ""
         jobs.append(Job(
-            uid=f"vansh:{url.split('?')[0]}", company=company, title=title.strip(),
-            location=md_clean(cells[2]), url=url, source="vansh",
+            uid=f"{source_name}:{url.split('?')[0]}", company=company, title=title.strip(),
+            location=md_clean(cells[2]), url=url, source=source_name, track=track,
             posted=mmm_dd_to_date(posted_raw), posted_raw=posted_raw,
             sponsorship=sponsorship, flags=flags, is_faang=is_faang_company(company),
         ))
@@ -537,12 +548,22 @@ def fetch_engine() -> list[Job]:
 
 
 SOURCES = [
-    ("engine",      fetch_engine),
-    ("speedy_usa",  lambda: parse_speedy(http_get(SPEEDY_USA), "speedy_usa")),
-    ("speedy_intl", lambda: parse_speedy(http_get(SPEEDY_INTL), "speedy_intl")),
-    ("speedy_ai",   lambda: parse_speedy(http_get(SPEEDY_AI_INTL), "speedy_ai")),
-    ("vansh",       lambda: parse_vansh(http_get(VANSH))),
-    ("eu",          lambda: parse_eu(http_get(EU_REPO))),
+    # (name, fetcher, track)
+    ("engine",         fetch_engine, "intern"),
+    ("speedy_usa",     lambda: parse_speedy(http_get(SPEEDY_USA), "speedy_usa"), "intern"),
+    ("speedy_intl",    lambda: parse_speedy(http_get(SPEEDY_INTL), "speedy_intl"), "intern"),
+    ("speedy_ai",      lambda: parse_speedy(http_get(SPEEDY_AI_INTL), "speedy_ai"), "intern"),
+    ("vansh",          lambda: parse_vansh(http_get(VANSH)), "intern"),
+    ("eu",             lambda: parse_eu(http_get(EU_REPO)), "intern"),
+
+    ("speedy_ng_usa",  lambda: parse_speedy(http_get(SPEEDY_NG_USA),
+                                            "speedy_ng_usa", "newgrad"), "newgrad"),
+    ("speedy_ng_intl", lambda: parse_speedy(http_get(SPEEDY_NG_INTL),
+                                            "speedy_ng_intl", "newgrad"), "newgrad"),
+    ("speedy_ng_ai",   lambda: parse_speedy(http_get(SPEEDY_NG_AI),
+                                            "speedy_ng_ai", "newgrad"), "newgrad"),
+    ("vansh_ng",       lambda: parse_vansh(http_get(VANSH_NG),
+                                           "vansh_ng", "newgrad"), "newgrad"),
 ]
 
 
@@ -586,6 +607,7 @@ def matches(job: Job) -> bool:
 # README listing tables
 # --------------------------------------------------------------------------
 README_FILE = Path(os.environ.get("README_FILE", Path(__file__).with_name("README.md")))
+NEWGRAD_FILE = Path(os.environ.get("NEWGRAD_FILE", Path(__file__).with_name("NEW_GRAD.md")))
 README_START = "<!-- LISTINGS:START -->"
 README_END = "<!-- LISTINGS:END -->"
 README_MAX_ROWS = int(os.environ.get("README_MAX_ROWS", "150"))
@@ -593,6 +615,20 @@ README_MAX_ROWS = int(os.environ.get("README_MAX_ROWS", "150"))
 SOURCE_LABELS = {
     "engine": "engine", "speedy_usa": "speedy/US", "speedy_intl": "speedy/INTL",
     "speedy_ai": "speedy/AI", "vansh": "vansh", "eu": "eu",
+    "speedy_ng_usa": "speedy/NG-US", "speedy_ng_intl": "speedy/NG-INTL",
+    "speedy_ng_ai": "speedy/NG-AI", "vansh_ng": "vansh/NG",
+}
+
+# Everything that differs between the two boards, in one place.
+TRACKS = {
+    "intern": {
+        "file": README_FILE, "noun": "internship", "emoji": "🔥",
+        "topic": "NTFY_TOPIC", "faang_topic": "NTFY_TOPIC_FAANG",
+    },
+    "newgrad": {
+        "file": NEWGRAD_FILE, "noun": "new grad", "emoji": "🎓",
+        "topic": "NTFY_TOPIC_NEWGRAD", "faang_topic": "NTFY_TOPIC_NEWGRAD_FAANG",
+    },
 }
 
 
@@ -646,7 +682,8 @@ def render_table(jobs: list[Job]) -> str:
     return "\n".join(out) + "\n"
 
 
-def render_listings(jobs: list[Job]) -> str:
+def render_listings(jobs: list[Job], track: str = "intern") -> str:
+    cfg = TRACKS[track]
     ordered = sorted(jobs, key=sort_key)
     faang = [j for j in ordered if j.is_faang]
     other = [j for j in ordered if not j.is_faang]
@@ -664,7 +701,7 @@ def render_listings(jobs: list[Job]) -> str:
         "",
         "<!-- Generated by intern_watch.py — edits inside this block are overwritten. -->",
         "",
-        f"## Current openings — {len(jobs)} listings",
+        f"## Current {cfg['noun']} openings — {len(jobs)} listings",
         "",
         f"Last updated **{stamp}** · {len(faang)} FAANG+ · {len(other)} other · "
         "sorted newest → oldest.",
@@ -673,10 +710,12 @@ def render_listings(jobs: list[Job]) -> str:
         "",
         "**Visa column:** what the *source* claims, not legal advice. "
         "🛂 = explicitly no sponsorship, 🇺🇸 = citizens/permanent residents only, "
-        "❔ = not stated — for US postings that usually still means enrolment at a "
-        "US school (F-1/CPT), and for EU/UK postings the local right to work.",
+        "❔ = not stated — for EU/UK postings that means the local right to work, and "
+        + ("for US postings OPT (which needs a US degree) or an H-1B."
+           if track == "newgrad" else
+           "for US postings enrolment at a US school (F-1/CPT)."),
         "",
-        f"### 🔥 FAANG+ ({len(faang)})",
+        f"### {cfg['emoji']} FAANG+ ({len(faang)})",
         "",
         render_table(faang),
         f"### 🆕 Other companies ({len(other)})",
@@ -687,12 +726,13 @@ def render_listings(jobs: list[Job]) -> str:
     ])
 
 
-def update_readme(jobs: list[Job]) -> None:
-    if not README_FILE.exists():
-        print(f"README not found at {README_FILE}, skipping table update", file=sys.stderr)
+def update_board(jobs: list[Job], track: str) -> None:
+    path = TRACKS[track]["file"]
+    if not path.exists():
+        print(f"{path.name} not found, skipping {track} table update", file=sys.stderr)
         return
-    text = README_FILE.read_text(encoding="utf-8")
-    block = render_listings(jobs)
+    text = path.read_text(encoding="utf-8")
+    block = render_listings(jobs, track)
     if README_START in text and README_END in text:
         head, rest = text.split(README_START, 1)
         _, tail = rest.split(README_END, 1)
@@ -700,10 +740,10 @@ def update_readme(jobs: list[Job]) -> None:
     else:
         new = text.rstrip("\n") + "\n\n---\n\n" + block
     if new != text:
-        README_FILE.write_text(new, encoding="utf-8")
-        print(f"README updated: {len(jobs)} listings", file=sys.stderr)
+        path.write_text(new, encoding="utf-8")
+        print(f"{path.name} updated: {len(jobs)} {track} listings", file=sys.stderr)
     else:
-        print("README unchanged", file=sys.stderr)
+        print(f"{path.name} unchanged", file=sys.stderr)
 
 
 def load_state() -> dict:
@@ -779,7 +819,7 @@ def notify_group(cfg, jobs, group, topic, tags, priority):
             if meta:
                 body.append(f"  {meta}")
             body.append(f"  {j.url}\n")
-        send_email(cfg, f"{group} {len(jobs)} new internship listings", "\n".join(body))
+        send_email(cfg, f"{group} — {len(jobs)} new listings", "\n".join(body))
 
 
 def load_config() -> dict:
@@ -799,7 +839,7 @@ def main() -> None:
     readme_only = "--readme" in sys.argv
 
     all_jobs = []
-    for name, fn in SOURCES:
+    for name, fn, track in SOURCES:
         try:
             g = fn()
             all_jobs.extend(g)
@@ -809,7 +849,8 @@ def main() -> None:
 
     uniq = {}
     for j in all_jobs:
-        k = j.url.split("?")[0]
+        # keyed by track too: the same URL can legitimately sit on both boards
+        k = (j.track, j.url.split("?")[0])
         if k in uniq:
             if j.is_faang:
                 uniq[k].is_faang = True
@@ -826,45 +867,66 @@ def main() -> None:
             uniq[k] = j
 
     listed = [j for j in uniq.values() if matches(j)]
-    # --dry-run stays side-effect free unless the README is the point of the run
+    by_track = {t: [j for j in listed if j.track == t] for t in TRACKS}
+
+    # --dry-run stays side-effect free unless a board rewrite is the point of the run
     if readme_only or not dry:
-        update_readme(listed)
+        for track, track_jobs in by_track.items():
+            update_board(track_jobs, track)
     if readme_only:
         return
 
-    jobs = [j for j in listed if j.is_faang] if faang_only else listed
+    print(f"\ntotal {len(all_jobs)} | unique {len(uniq)} | listed {len(listed)}",
+          file=sys.stderr)
 
     state = load_state()
     seen = set(state["seen"])
-    new = [j for j in jobs if j.uid not in seen]
-    faang_new = [j for j in new if j.is_faang]
-    other_new = [j for j in new if not j.is_faang]
+    cfg = None if (dry or seed) else load_config()
+    keep_seen = []
 
-    print(f"\ntotal {len(all_jobs)} | unique {len(uniq)} | filtered {len(jobs)} | "
-          f"NEW {len(new)} (FAANG+ {len(faang_new)} / other {len(other_new)})", file=sys.stderr)
+    for track, track_jobs in by_track.items():
+        noun, emoji = TRACKS[track]["noun"], TRACKS[track]["emoji"]
+        jobs = [j for j in track_jobs if j.is_faang] if faang_only else track_jobs
+        keep_seen.extend(jobs)
+        new = [j for j in jobs if j.uid not in seen]
+        faang_new = [j for j in new if j.is_faang]
+        other_new = [j for j in new if not j.is_faang]
 
-    if dry:
-        for grp, lst in (("🔥 FAANG+", faang_new), ("🆕 Other", other_new)):
-            if not lst:
-                continue
-            print(f"\n===== {grp} ({len(lst)}) =====")
-            for j in lst:
-                meta = " | ".join(b for b in (j.posted, j.season, j.category,
-                                              j.sponsorship, j.salary) if b)
-                print(f"- [{j.source}]{' 🇪🇺' if j.is_eu else ''} {j.label()}")
-                if meta:
-                    print(f"    {meta}")
-                print(f"    {j.url}")
-    elif seed:
-        print("--seed: marked as seen, no notifications sent.", file=sys.stderr)
-    else:
-        cfg = load_config()
-        faang_topic = cfg.get("NTFY_TOPIC_FAANG") or cfg.get("NTFY_TOPIC")
-        notify_group(cfg, faang_new, "🔥 FAANG+", faang_topic,
+        print(f"\n[{noun}] filtered {len(jobs)} | NEW {len(new)} "
+              f"(FAANG+ {len(faang_new)} / other {len(other_new)})", file=sys.stderr)
+
+        if dry:
+            for grp, lst in ((f"{emoji} FAANG+", faang_new), ("🆕 Other", other_new)):
+                if not lst:
+                    continue
+                print(f"\n===== [{noun}] {grp} ({len(lst)}) =====")
+                for j in lst:
+                    meta = " | ".join(b for b in (j.posted, j.season, j.category,
+                                                  j.sponsorship, j.salary) if b)
+                    print(f"- [{j.source}]{' 🇪🇺' if j.is_eu else ''} {j.label()}")
+                    if meta:
+                        print(f"    {meta}")
+                    print(f"    {j.url}")
+            continue
+        if seed:
+            continue
+
+        # An unset topic means the board is silent — that is how the new grad
+        # track stays opt-in instead of ambushing you with a thousand postings.
+        topic = cfg.get(TRACKS[track]["topic"])
+        if not topic:
+            print(f"[{noun}] {TRACKS[track]['topic']} unset, notifications off",
+                  file=sys.stderr)
+            continue
+        faang_topic = cfg.get(TRACKS[track]["faang_topic"]) or topic
+        notify_group(cfg, faang_new, f"{emoji} FAANG+", faang_topic,
                      ["fire", "rotating_light"], "urgent")
         if not faang_only:
-            notify_group(cfg, other_new, "🆕", cfg.get("NTFY_TOPIC"),
-                         ["briefcase"], "high")
+            notify_group(cfg, other_new, f"🆕 {noun}", topic, ["briefcase"], "high")
+
+    if seed:
+        print("--seed: marked as seen, no notifications sent.", file=sys.stderr)
+    elif not dry:
         for repo, path in WATCH_REPOS:
             if repo in state["repos_announced"]:
                 continue
@@ -879,7 +941,7 @@ def main() -> None:
         # --dry-run must not consume the "new" queue: persisting here would mark
         # everything as seen and those postings would never notify.
         return
-    state["seen"] = sorted(seen | {j.uid for j in jobs})
+    state["seen"] = sorted(seen | {j.uid for j in keep_seen})
     save_state(state)
 
 
