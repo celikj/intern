@@ -58,6 +58,7 @@ jobs:
           CATEGORIES:          ${{ vars.CATEGORIES          || '' }}
           EXCLUDE_SPONSORSHIP: ${{ vars.EXCLUDE_SPONSORSHIP || 'no-sponsorship,citizens-only' }}
           EXCLUDE_REGIONS:     ${{ vars.EXCLUDE_REGIONS     || 'middle-east,africa,south-asia' }}
+          MAX_AGE_DAYS:        ${{ vars.MAX_AGE_DAYS        || '30' }}
           TITLE_EXCLUDE:       ${{ vars.TITLE_EXCLUDE       || 'phd,ph.d,masters,master''s,mba' }}
           NTFY_MAX_PER_RUN:    ${{ vars.NTFY_MAX_PER_RUN    || '12' }}
 

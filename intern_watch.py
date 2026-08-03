@@ -112,8 +112,8 @@ REGION_GROUPS = {
         "saudi arabia", "ksa", "riyadh", "jeddah", "dhahran", "dammam", "neom",
         "qatar", "doha", "kuwait", "kuwait city", "bahrain", "manama",
         "oman", "muscat", "yemen", "sanaa",
-        "israel", "tel aviv", "tel-aviv", "herzliya", "haifa", "jerusalem",
-        "ra'anana", "raanana", "yokneam", "petah tikva", "netanya", "beer sheva",
+        # Israel is deliberately absent: it is Middle East geographically, but it is
+        # kept on purpose. Add its cities here to drop it.
         "jordan", "amman", "lebanon", "beirut", "syria", "damascus",
         "iraq", "baghdad", "erbil", "iran", "tehran",
     ],
@@ -155,6 +155,9 @@ EXCLUDE_REGIONS = [r.strip().lower() for r in os.environ.get(
     "EXCLUDE_REGIONS", "middle-east,africa,south-asia").split(",")
     if r.strip() and r.strip().lower() != "none"]
 NTFY_MAX_PER_RUN = int(os.environ.get("NTFY_MAX_PER_RUN", "12"))
+# MAX_AGE_DAYS: drop postings older than this. 0 disables the cutoff.
+# Listings whose sources gave no date are always kept — there is nothing to judge.
+MAX_AGE_DAYS = int(os.environ.get("MAX_AGE_DAYS", "30"))
 
 for _g in EXCLUDE_REGIONS:
     if _g not in REGION_GROUPS:
@@ -220,6 +223,16 @@ class Job:
             if tail in US_STATES:
                 return True
         return False
+
+    @property
+    def age_days(self):
+        """Days since the posting went up, or None when no source gave a date."""
+        if not self.posted:
+            return None
+        try:
+            return (today_utc() - date.fromisoformat(self.posted)).days
+        except ValueError:
+            return None
 
     @property
     def excluded_region(self) -> str:
@@ -531,6 +544,8 @@ def matches(job: Job) -> bool:
         return False
     if job.excluded_region:
         return False
+    if MAX_AGE_DAYS > 0 and job.age_days is not None and job.age_days > MAX_AGE_DAYS:
+        return False
     if SEASONS and job.season:
         if not any(s.lower() in job.season.lower() for s in SEASONS):
             return False
@@ -582,9 +597,8 @@ def cell(text: str, limit: int = 0) -> str:
 def age_label(job: Job) -> str:
     if not job.posted:
         return "—"
-    try:
-        days = (today_utc() - date.fromisoformat(job.posted)).days
-    except ValueError:
+    days = job.age_days
+    if days is None:
         return job.posted
     if days <= 0:
         return f"{job.posted} (today)"
@@ -623,6 +637,7 @@ def render_listings(jobs: list[Job]) -> str:
         ("CATEGORIES", ",".join(CATEGORIES) or "any"),
         ("EXCLUDE_SPONSORSHIP", ",".join(EXCLUDE_SPONSORSHIP) or "none"),
         ("EXCLUDE_REGIONS", ",".join(EXCLUDE_REGIONS) or "none"),
+        ("MAX_AGE_DAYS", str(MAX_AGE_DAYS) if MAX_AGE_DAYS > 0 else "off"),
     ))
     return "\n".join([
         README_START,
