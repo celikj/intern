@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 947 listings
 
-Last updated **2026-08-24 05:37 UTC** · 211 FAANG+ · 736 other · sorted newest → oldest.
+Last updated **2026-08-24 10:36 UTC** · 211 FAANG+ · 736 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
@@ -195,6 +195,7 @@ _+61 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
 | Posted | Company | Role | Location | Region | Visa situation | Salary | Source |
 |---|---|---|---|---|---|---|---|
+| 2026-08-24 (today) | InfiniteQuant | [Quantitative Developer - Internship - Summer 2027](https://jobs.smartrecruiters.com/InfiniteQuant/744000145205764) | New York, New York, United States (Remo… | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-08-23 (1d) | Elekta | [Software Support Intern](https://elekta.wd3.myworkdayjobs.com/en-US/elekta_careers/job/So-Paulo/Software-Support-Intern_R2026-1320) | São Paulo, Brazil | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-08-23 (1d) | Emory University | [Internship GPS Sample Tester and Junior Developer - ETS- Temporary](https://staff-emory.icims.com/jobs/172196/internship-gps-sample-tester-and-junior-developer-%28ets%29%7c-temporary/job) | Decatur, GA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-08-23 (1d) | SimIS | [Aerospace/Aviation Artificial Intelligence Developer - Intern](http://simisinc.applytojob.com/apply/U1yOSyvkvH/AerospaceAviation-Artificial-Intelligence-Developer-Intern) | Suffolk, VA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
@@ -291,7 +292,6 @@ _+61 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-08-19 (5d) | General Matter | [Summer 2027 Internship - Software Engineering](https://job-boards.greenhouse.io/generalmatter/jobs/5377118008) | Los Angeles, CA | 🇺🇸 US | ❔ US F-1/CPT likely | $32–$46/hr | engine |
 | 2026-08-19 (5d) | Hitachi | [Talented AI Engineer Internship Program](https://hitachi.wd1.myworkdayjobs.com/en-US/hitachi/job/DEAI-DS-VN-Danang-City/Talented-AI-Engineer-Intern_R0136992) | — | 🌍 Other | ❔ Not stated | — | speedy/AI |
 | 2026-08-19 (5d) | Huntsman | [Business Intelligence & AI Analytics Intern](https://huntsman.wd1.myworkdayjobs.com/en-US/huntsman/job/Malaysia---Kuala-Lumpur/Business-Intelligence---AI-Analytics-Intern_J-020202) | Kuala Lumpur, Malaysia | 🌍 Other | ❔ Not stated | — | speedy/AI |
-| 2026-08-19 (5d) | InfiniteQuant | [Quantitative Developer - Internship - Summer 2027](https://jobs.smartrecruiters.com/InfiniteQuant/744000144281579) | New York, New York, United States (Remo… | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-08-19 (5d) | Jabil | [Intern - Software Development Services](https://jabil.wd5.myworkdayjobs.com/en-US/jabil_careers/job/Penang/Intern---Software-Development-Services_J2461809) | Penang, Malaysia | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-08-19 (5d) | Philips | [Data & AI Reporting Analyst Intern - Customs Compliance](https://philips.wd3.myworkdayjobs.com/en-US/jobs-and-careers/job/Best/Data---AI-Reporting-Analyst-Intern--Customs-Compliance-_587242) | Best, The Netherlands | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/AI |
 | 2026-08-19 (5d) | PIMCO | [2027 Summer Intern - Technology Analyst - Software Engineering](https://pimco.wd1.myworkdayjobs.com/en-US/pimco-careers/job/Austin-TX-USA/XMLNAME-2027-Summer-Intern---Technology-Analyst--Software-Engineering_R106745) | Austin, TX | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
