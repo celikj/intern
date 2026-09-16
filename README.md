@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 1728 listings
 
-Last updated **2026-09-16 03:36 UTC** · 288 FAANG+ · 1440 other · sorted newest → oldest.
+Last updated **2026-09-16 09:41 UTC** · 288 FAANG+ · 1440 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
@@ -206,6 +206,7 @@ _+138 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-09-16 (today) | GSK Internships & Co-ops powere… | [Winter Co-op/Web App Developer](https://gsk-us-earlytalent.icims.com/jobs/11013/winter-co-op-web-app-developer/job) | Cambridge, MA | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/US |
 | 2026-09-16 (today) | Lawrence Livermore National Lab… | [Data Science Institute Graduate Student Intern - Summer 2027](https://jobs.smartrecruiters.com/LLNL/3743990015289146) | Livermore, CA, United States (Hybrid) | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-16 (today) | Lawrence Livermore National Lab… | [Data Science Institute Undergraduate Student Intern - Summer 2027](https://jobs.smartrecruiters.com/LLNL/3743990015289136) | Livermore, CA, United States (Hybrid) | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
+| 2026-09-16 (today) | Live Oak Bank | [Summer 2027 Intern: AI Enablement & Forward-Deployed Engineering](https://liveoakbancshares.wd1.myworkdayjobs.com/Live_Oak/job/Wilmington-NC/Summer-2027-Intern--AI-Enablement---Forward-Deployed-Engineering_R-002624) | Wilmington, NC | 🇺🇸 US | ❔ US F-1/CPT likely | $19.77–$32.12/hr | engine |
 | 2026-09-16 (today) | Micron Technology | [Intern - NAND Device Engineering AI](https://micron.wd1.myworkdayjobs.com/en-US/external/job/Fab-10NX-Singapore/Intern---NAND-Device-Engineering-AI_JR112107) | Singapore | 🌍 Other | ❔ Not stated | — | speedy/AI |
 | 2026-09-16 (today) | Mill | [Firmware Engineering Intern - Winter 2026](https://job-boards.greenhouse.io/mill/jobs/4733709005) | Mill, The Netherlands +1 | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/US |
 | 2026-09-16 (today) | Semgrep | [Software Engineer Intern](https://jobs.ashbyhq.com/semgrep/8e64dc7f-e925-4361-86d5-b01ee518c987) | San Francisco, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
@@ -344,7 +345,6 @@ _+138 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-09-12 (4d) | NXP Semiconductors | [Internship: Software Test Engineer - JavaCard Applications - m/f/d](https://nxp.wd3.myworkdayjobs.com/en-US/careers/job/Gratkorn/Internship--Software-Developer---Tools--m-f-d-_R-10060873-1) | Gratkorn, Austria | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
 | 2026-09-12 (4d) | NXP Semiconductors | [MCU Software Test Engineer Intern](https://nxp.wd3.myworkdayjobs.com/en-US/careers/job/Suzhou/MCU-Software-Test-Engineer-Intern_R-10066643) | — | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-12 (4d) | Philips | [Co-op - Software Design Assurance - IGTD - Plymouth - MN - January 20…](https://philips.wd3.myworkdayjobs.com/en-US/jobs-and-careers/job/Plymouth-Minnesota-United-States/Co-op---Software-Design-Assurance--IGTD----Plymouth--MN---January-2027_592000) | Plymouth, MN +1 | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
-| 2026-09-12 (4d) | PwC | [Advisory National - Commercial Tech & Innovation - AI Engineering Int…](https://pwc.wd3.myworkdayjobs.com/en-US/nonpublic_postings/job/IL-Rosemont/Advisory-National---Commercial-Tech---Innovation---AI-Engineering-Intern---Winter-2027_760525WD) | — | 🌍 Other | ❔ Not stated | — | speedy/AI |
 
 _+1290 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
