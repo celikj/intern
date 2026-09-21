@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 1856 listings
 
-Last updated **2026-09-21 03:36 UTC** · 293 FAANG+ · 1563 other · sorted newest → oldest.
+Last updated **2026-09-21 10:25 UTC** · 293 FAANG+ · 1563 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
@@ -195,6 +195,7 @@ _+143 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
 | Posted | Company | Role | Location | Region | Visa situation | Salary | Source |
 |---|---|---|---|---|---|---|---|
+| 2026-09-21 (today) | AutoZone | [AutoZone 2027 Summer Internship – Data Science](https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/155461) | Memphis, TN, United States | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-20 (1d) | Achievers | [Software Engineering Co-op - Winter 2027](https://jobs.lever.co/achievers/e0700fce-b33b-435a-ab90-84bbd677e181) | Toronto, Canada | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-20 (1d) | DatologyAI | [Software Engineer Intern - Infrastructure - Summer 2027](https://jobs.ashbyhq.com/datologyai/17d51801-5d5f-41ad-baec-f1ac5a255d02) | — | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-20 (1d) | Gemini | [Software Engineering Intern - Winter 2027](https://boards.greenhouse.io/embed/job_app?for=gemini&token=8214272&gh_jid=8214272) | New York City, NY | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
@@ -344,7 +345,6 @@ _+143 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-09-17 (4d) | GM financial | [Intern - Software Development Engineer](https://fa-exvu-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/260795) | Arlington, TX, United States | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-17 (4d) | GoVenti | [C++ Software Engineer Intern - Control](https://jobs.ashbyhq.com/goventi/52c162ad-20c4-4db0-ae4f-cc4d1218bc67) | Singapore, Singapore | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-17 (4d) | Graco | [Software Engineer Intern](https://graco.wd501.myworkdayjobs.com/en-US/graco_careers/job/Dayton-Minnesota-USA-French-Lake/Software-Engineer-Intern_R0023556) | Dayton, MN | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
-| 2026-09-17 (4d) | Harman | [Intern - Algorithm Research](https://harman.wd3.myworkdayjobs.com/en-US/harman/job/CN_Shanghai_12F--15F-No-9233-Humin-Road/Intern--Algorithm-Research_R-55806-2026) | — | 🌍 Other | ❔ Not stated | — | speedy/AI |
 
 _+1413 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
