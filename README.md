@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 1865 listings
 
-Last updated **2026-09-23 09:45 UTC** · 298 FAANG+ · 1567 other · sorted newest → oldest.
+Last updated **2026-09-23 14:43 UTC** · 298 FAANG+ · 1567 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
@@ -204,7 +204,7 @@ _+148 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-09-22 (1d) | Rippling | [Data Science Intern - Summer 2027](https://ats.rippling.com/rippling/jobs/f255bf03-9173-4c0a-8a18-7cc43c27ded8) | San Francisco, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-22 (1d) | Rippling | [Full Stack Software Engineer Intern - Summer 2027](https://ats.rippling.com/rippling/jobs/f64b6158-9534-4bab-9457-45556166b262) | San Francisco, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-22 (1d) | Rippling | [Machine Learning Software Engineer Intern - Summer 2027](https://ats.rippling.com/rippling/jobs/f9de04c3-e2c5-41f9-8e46-a0684707f89d) | San Francisco, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
-| 2026-09-22 (1d) | Rippling | [Software Engineer Intern - Backend Focused - Summer 2027](https://ats.rippling.com/rippling/jobs/a07e4e46-3721-4934-b57b-0d58412e22ba) | Seattle, WA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
+| 2026-09-22 (1d) | Rippling | [Software Engineer Intern - Backend Focused - Summer 2027](https://ats.rippling.com/rippling/jobs/a07e4e46-3721-4934-b57b-0d58412e22ba) | San Francisco, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-22 (1d) | Stantec | [Transportation Engineering Co-op/Intern - Infrastructure (Summer 2027)](https://hdhl.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/1007919) | Portland, ME, United States | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-22 (1d) | Tomofun - Furbo Pet Camera | [Backend Engineering Intern](https://job-boards.greenhouse.io/tomofunfurbo/jobs/8000331003) | Taipei, Taiwan | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-22 (1d) | Verizon Communications | [Verizon Network and Technology: AI Science 2027 Internship](https://verizon.wd12.myworkdayjobs.com/verizon-careers/job/Basking-Ridge-New-Jersey/Verizon-Network-and-Technology--AI-Science-2027-Internship_R-1101167) | Basking Ridge, New Jersey | 🌍 Other | ❔ Not stated | $27/hr | engine |
