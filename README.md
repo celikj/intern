@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 1928 listings
 
-Last updated **2026-09-24 03:25 UTC** · 310 FAANG+ · 1618 other · sorted newest → oldest.
+Last updated **2026-09-24 09:43 UTC** · 310 FAANG+ · 1618 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
@@ -315,8 +315,6 @@ _+160 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-09-22 (2d) | TD SYNNEX | [Summer 2027 Internship Program - Technical - Applied Innovation Track…](https://synnex.wd5.myworkdayjobs.com/en-US/tdsynnexcareers/job/Greenville-SC/Summer-2027-Internship-Program---Technical--Applied-Innovation-Track----Information-Technology---Supply-Chain---Systems-and-Cloud---Artificial-Intelligence_R56571) | Greenville, SC +1 | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-09-22 (2d) | Tomofun - Furbo Pet Camera | [Backend Engineering Intern](https://job-boards.greenhouse.io/tomofunfurbo/jobs/8000331003) | Taipei, Taiwan | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-22 (2d) | Valeo | [Prácticas como Industrial AI](https://valeo.wd3.myworkdayjobs.com/en-US/valeo_jobs/job/Zaragoza/Prcticas-como-Industrial-AI_REQ2026081288) | Zaragoza, Spain | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/AI |
-| 2026-09-22 (2d) | Verizon Communications | [Verizon Network and Technology: AI Science 2027 Internship](https://verizon.wd12.myworkdayjobs.com/verizon-careers/job/Basking-Ridge-New-Jersey/Verizon-Network-and-Technology--AI-Science-2027-Internship_R-1101167) | Basking Ridge, New Jersey | 🌍 Other | ❔ Not stated | $27/hr | engine |
-| 2026-09-22 (2d) | Verizon Communications | [Verizon Network and Technology: AI Science 2027 Internship: Rutgers,…](https://verizon.wd12.myworkdayjobs.com/verizon-careers/job/Basking-Ridge-New-Jersey/Verizon-Network-and-Technology--AI-Science-2027-Internship--Rutgers--NJIT--NYU--UT-Dallas--UT-Arlington--Texas-A-M_R-1101169) | Basking Ridge, New Jersey | 🌍 Other | ❔ Not stated | $27/hr | engine |
 | 2026-09-22 (2d) | WEX | [Software Development Intern](https://wexinc.wd5.myworkdayjobs.com/en-US/wexinc/job/Melbourne-Australia/Software-Development-Intern_R22903) | Melbourne, Australia | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-21 (3d) | Acima | [Software Engineer Intern](https://upbound.wd501.myworkdayjobs.com/Acima/job/Draper-UT/Software-Engineer-Intern_R-100759-1) | Draper, UT | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-21 (3d) | AutoZone | [AutoZone 2027 Summer Internship – Data Science](https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/155461) | Memphis, TN, United States | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
@@ -345,6 +343,8 @@ _+160 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-09-19 (5d) | Berkley Insurance | [Software Developer - .NET Intern](https://careers-berkley.icims.com/jobs/14444/software-developer-%28.net%29-intern/job) | Urbandale, IA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-09-19 (5d) | Bosch | [DATA ANALYST INTERN](https://jobs.smartrecruiters.com/BoschGroup/744000150216697-data-analyst-intern?oga=true) | San Francisco, Costa Rica | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/AI |
 | 2026-09-19 (5d) | Brown Brothers Harriman | [2027 Internal Audit - Information Technology & Cybersecurity Summer I…](https://bbh.wd5.myworkdayjobs.com/BBH/job/New-York/XMLNAME-2027-Internal-Audit---Information-Technology---Cybersecurity-Summer-Internship_72899) | New York | 🇺🇸 US | ❔ US F-1/CPT likely | $25/hr | engine |
+| 2026-09-19 (5d) | CloudSEK | [SDE Intern - Frontend](https://job-boards.greenhouse.io/cloudsek/jobs/6200261004) | Bengaluru, India | 🌍 Other | ❔ Not stated | — | speedy/INTL |
+| 2026-09-19 (5d) | CME Group | [Software Engineering Internship - Summer 2027](https://cmegroup.wd1.myworkdayjobs.com/en-US/cme_careers/job/Chicago---20-S-Wacker/Software-Engineering-Internship---Summer-2027_34821) | Chicago, IL | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 
 _+1468 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
