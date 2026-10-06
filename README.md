@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 2046 listings
 
-Last updated **2026-10-06 05:09 UTC** · 325 FAANG+ · 1721 other · sorted newest → oldest.
+Last updated **2026-10-06 16:31 UTC** · 325 FAANG+ · 1721 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
@@ -247,6 +247,7 @@ _+175 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-10-03 (3d) | Marvell | [Firmware Engineer Intern - BS/MS - 2027 Co-Op](https://marvell.wd1.myworkdayjobs.com/en-US/marvellcareers/job/Toronto-Canada/Firmware-Engineer-Intern---BS-MS---2027-Co-Op_2604959) | Toronto, Canada | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-10-03 (3d) | Marvell | [Firmware Engineer Intern - Winter 2027](https://marvell.wd1.myworkdayjobs.com/en-US/marvellcareers/job/Ottawa-Canada/Firmware-Engineer-Intern---Winter-2027_2604738) | Ottawa, Canada | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-10-03 (3d) | Mila - Quebec Institute of Arti… | [Stagiaire de recherche - Sécurité de l'IA / Research Intern - AI Safe…](https://apply.workable.com/mila-2/j/1E81635604/) | Montréal, Canada | 🌍 Other | ❔ Not stated | — | speedy/AI |
+| 2026-10-03 (3d) | Natera | [Software Engineering Intern](https://job-boards.greenhouse.io/natera/jobs/6188497004) | Remote - USA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-10-03 (3d) | Nelnet | [Intern - IT Software Engineer .NET - Summer 2027](https://nelnet.wd1.myworkdayjobs.com/en-US/mynelnet/job/Lincoln-NE/Intern---IT-Software-Engineer-NET--Summer-2027-_R23198) | Lincoln, NE | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-10-03 (3d) | PwC | [Internship - Consulting - Cloud Engineering - Data & Analytics - Tale…](https://pwc.wd3.myworkdayjobs.com/en-US/nonpublic_postings/job/Jakarta/Internship---Consulting---Cloud-Engineering--Data---Analytics---Talent-Pool_765828WD) | Jakarta, Indonesia | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-10-03 (3d) | Regeneron | [2027 Co-op Data Analytics & Digital Tools - IOPS](https://regeneron.wd1.myworkdayjobs.com/en-US/careers/job/RENSSELAER/XMLNAME-2027-Co-op-Data-Analytics---Digital-Tools--IOPS-_R50983-1) | — | 🌍 Other | ❔ Not stated | — | speedy/AI |
@@ -344,7 +345,6 @@ _+175 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-10-02 (4d) | Southwest | [Summer 2027 Data Engineer Internship](https://swa.wd1.myworkdayjobs.com/en-US/external/job/TX-Dallas/Summer-2027-Data-Engineer-Internship_R-2026-73271) | — | 🌍 Other | ❔ Not stated | — | speedy/AI |
 | 2026-10-02 (4d) | Southwest | [Summer 2027 Software Engineer Internship](https://swa.wd1.myworkdayjobs.com/en-US/external/job/TX-Dallas/Summer-2027-Software-Engineer-Internship_R-2026-73270) | — | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-10-02 (4d) | Thales | [Software Engineer Intern - Python](https://thales.wd3.myworkdayjobs.com/en-US/careers/job/SINGAPORE/Software-Engineer-Intern--Python-_R0342044) | Singapore | 🌍 Other | ❔ Not stated | — | speedy/INTL |
-| 2026-10-02 (4d) | Vanguard | [College to Corporate IT Internship-Risk & Security Engineer (PA)](https://vanguard.wd5.myworkdayjobs.com/vanguard_external/job/Malvern-PA/College-to-Corporate-IT-Internship-Risk---Security-Engineer--PA-_182784) | Malvern, PA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 
 _+1571 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
