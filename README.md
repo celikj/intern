@@ -28,16 +28,17 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 2079 listings
 
-Last updated **2026-10-08 04:46 UTC** · 343 FAANG+ · 1736 other · sorted newest → oldest.
+Last updated **2026-10-08 11:47 UTC** · 344 FAANG+ · 1735 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
 **Visa column:** what the *source* claims, not legal advice. 🛂 = explicitly no sponsorship, 🇺🇸 = citizens/permanent residents only, ❔ = not stated — for US postings that usually still means enrolment at a US school (F-1/CPT), and for EU/UK postings the local right to work.
 
-### 🔥 FAANG+ (343)
+### 🔥 FAANG+ (344)
 
 | Posted | Company | Role | Location | Region | Visa situation | Salary | Source |
 |---|---|---|---|---|---|---|---|
+| 2026-10-08 (today) | DoorDash | [Software Engineer, Intern - Labs (Summer 2027)](https://job-boards.greenhouse.io/doordashusa/jobs/8263774) | San Francisco, CA; Sunnyvale, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-10-07 (1d) | Amazon | [Software Development Engineer - Embedded Systems Intern - Amazon Leo…](https://www.amazon.jobs/jobs/10571374/apply) | Redmond, WA | 🇺🇸 US | ❔ US F-1/CPT likely | $53/hr | speedy/US |
 | 2026-10-07 (1d) | Amazon | [Software Development Engineer Intern - Mobile- iOS/Android - Summer 2…](https://www.amazon.jobs/jobs/10571004/apply) | Seattle, WA | 🇺🇸 US | ❔ US F-1/CPT likely | $53/hr | speedy/US |
 | 2026-10-07 (1d) | Cloudflare | [Software Engineer Intern - 2027](https://boards.greenhouse.io/cloudflare/jobs/8245211?gh_jid=8245211) | London, United Kingdom | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
@@ -187,11 +188,10 @@ Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSO
 | 2026-09-04 (34d) | Amazon | [Software Development Engineer Intern/Co-Op, ROBOTICS - 2027](https://www.amazon.jobs/en/jobs/10529525/software-development-engineer-intern-co-op-robotics-2027) | North Reading, Massachusetts, USA | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-09-04 (34d) | Google | [Part-Time Software Engineering BS/MS Intern - 2027](https://www.google.com/about/careers/applications/jobs/results/103632882076918470) | Tel Aviv, Israel +1 | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-09-04 (34d) | Google | [Software Engineering - Site Reliability Engineering BS/MS Intern - 20…](https://www.google.com/about/careers/applications/jobs/results/121543376737575622) | Warsaw, Poland +1 | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
-| 2026-09-04 (34d) | Google | [Software Engineering - Site Reliability Engineering BS/MS Intern - 20…](https://www.google.com/about/careers/applications/jobs/results/142747733357142726) | Zürich, Switzerland +4 | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
 
-_+193 older listings not shown (raise `README_MAX_ROWS` to include them)._
+_+194 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
-### 🆕 Other companies (1736)
+### 🆕 Other companies (1735)
 
 | Posted | Company | Role | Location | Region | Visa situation | Salary | Source |
 |---|---|---|---|---|---|---|---|
@@ -235,6 +235,7 @@ _+193 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-10-07 (1d) | McKesson | [Stagiaire Développeur- se Full Stack Java / Java Developer Intern - H…](https://mckesson.wd3.myworkdayjobs.com/en-US/external_careers/job/CAN-QC-Montreal-Ville-Saint-Laurent/Stagiaire-Dveloppeur-se--Full-Stack-Java---Java-Developer-Intern----Hiver-Winter-2027_JR0155176) | Montréal, Canada | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-10-07 (1d) | MFS | [Spring 2027 Systems Engineering - Cloud Technologies Co-Op - January…](https://mfs.wd1.myworkdayjobs.com/en-US/mfs-careers/job/Boston/Spring-2027-Systems-Engineering---Cloud-Technologies-Co-Op--January---June-_MFS-231989) | Boston, MA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-10-07 (1d) | Micron Technology | [Intern- PIE RAM - Agentic AI](https://micron.wd1.myworkdayjobs.com/en-US/external/job/Fab-10NX-Singapore/Intern--PIE-RAM--Agentic-AI-_JR112779) | Singapore | 🌍 Other | ❔ Not stated | — | speedy/AI |
+| 2026-10-07 (1d) | Motorola | [Software Engineer - Summer 2027 Internship](https://motorolasolutions.wd5.myworkdayjobs.com/Careers/job/Westminster-CO/Software-Engineer---Summer-2027-Internship_R68997) | Westminster, CO | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-10-07 (1d) | Motorola Solutions | [Intern Software Developer - Java](https://motorolasolutions.wd5.myworkdayjobs.com/en-US/careers/job/Krakow-Poland/Intern-Software-Developer--Java-_R69454) | Kraków, Poland | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
 | 2026-10-07 (1d) | NXP Semiconductors | [Internship - Product Engineering - Data Science: Machine Learning Ana…](https://nxp.wd3.myworkdayjobs.com/en-US/careers/job/Nijmegen/Internship---Product-Engineering--Data-Science--Machine-Learning-Analyst-_R-10064265-1) | Nijmegen, The Netherlands | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/AI |
 | 2026-10-07 (1d) | PDT Partners | [Summer 2027 Quantitative Research Intern](https://job-boards.greenhouse.io/pdtpartners/jobs/8263031) | New York, NY | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
@@ -252,7 +253,6 @@ _+193 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-10-07 (1d) | Semios | [Software Developer Co-op](https://apply.workable.com/semios/j/4B5D1FB613/) | Vancouver, Canada | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 | 2026-10-07 (1d) | Sierra Nevada Corporation | [Software Engineer I - For 2026 Interns Only](https://snc.wd1.myworkdayjobs.com/en-US/snc_external_career_site/job/Dayton-OH/Software-Engineer-I--For-2026-Interns-Only-_R0030889) | Dayton, OH | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-10-07 (1d) | Squarepoint Capital | [Intern Software Developer - Warsaw 2027](https://www.squarepoint-capital.com/open-opportunities?id=8045124&gh_jid=8045124) | London, United Kingdom +3 | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
-| 2026-10-07 (1d) | State Affairs | [Software Engineer Intern (Summer 2027)](https://job-boards.greenhouse.io/stateaffairs/jobs/4437430009) | Washington, DC | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
 | 2026-10-07 (1d) | The Kendall Group | [Software Engineering Intern](https://kendallgroup.wd503.myworkdayjobs.com/en-US/kendall_careers/job/Portage-MI/Software-Engineering-Intern_R-101166) | Portage, MI +2 | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-10-07 (1d) | Tomofun - Furbo Pet Camera | [Data & AI Engineering Intern](https://job-boards.greenhouse.io/tomofunfurbo/jobs/8013772003) | Taipei, Taiwan | 🌍 Other | ❔ Not stated | — | speedy/AI |
 | 2026-10-06 (2d) | Airbus | [Flight Software Engineer Intern - Space Systems Airbus Crisa](https://ag.wd3.myworkdayjobs.com/en-US/airbus/job/Madrid-Area/Flight-Software-Engineer-Intern--Space-Systems-Airbus-Crisa_JR10446862) | Madrid, Spain | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/INTL |
@@ -346,7 +346,7 @@ _+193 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-10-03 (5d) | Innovative Defense Technologies | [Software Systems Engineer Intern](https://idtus.pinpointhq.com/en/postings/0be468fd-19df-4455-b4a2-5c4392574805) | San Diego, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-10-03 (5d) | Johnson Controls | [Software/Controls Engineering Grad Intern - Fall Intern](https://jci.wd5.myworkdayjobs.com/en-US/jci/job/Salem-Virginia-United-States-of-America/Software-Controls-Engineering-Grad-Intern_WD30278205-1) | Salem, VA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 
-_+1586 older listings not shown (raise `README_MAX_ROWS` to include them)._
+_+1585 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
 <!-- LISTINGS:END -->
 
