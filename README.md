@@ -28,7 +28,7 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 2682 listings
 
-Last updated **2026-10-23 09:45 UTC** · 434 FAANG+ · 2248 other · sorted newest → oldest.
+Last updated **2026-10-23 14:41 UTC** · 434 FAANG+ · 2248 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
