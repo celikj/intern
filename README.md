@@ -28,13 +28,13 @@ else in separate tables, newest posting first**, with location, visa situation a
 
 ## Current openings — 4301 listings
 
-Last updated **2026-11-17 06:49 UTC** · 764 FAANG+ · 3537 other · sorted newest → oldest.
+Last updated **2026-11-17 18:57 UTC** · 763 FAANG+ · 3538 other · sorted newest → oldest.
 
 Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSORSHIP=no-sponsorship,citizens-only`
 
 **Visa column:** what the *source* claims, not legal advice. 🛂 = explicitly no sponsorship, 🇺🇸 = citizens/permanent residents only, ❔ = not stated — for US postings that usually still means enrolment at a US school (F-1/CPT), and for EU/UK postings the local right to work.
 
-### 🔥 FAANG+ (764)
+### 🔥 FAANG+ (763)
 
 | Posted | Company | Role | Location | Region | Visa situation | Salary | Source |
 |---|---|---|---|---|---|---|---|
@@ -189,22 +189,34 @@ Active filters: `SEASONS=2027`, `REGIONS=all`, `CATEGORIES=any`, `EXCLUDE_SPONSO
 | 2026-11-01 (16d) | TikTok | [AI Software Engineer Project Intern, Transaction Platform](https://go.vansh.nyc/18t?s=y) | San Jose, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-01 (16d) | TikTok | [Backend Software Engineer Intern, Creation Platform](https://go.vansh.nyc/18E?s=y) | San Jose, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 
-_+614 older listings not shown (raise `README_MAX_ROWS` to include them)._
+_+613 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
-### 🆕 Other companies (3537)
+### 🆕 Other companies (3538)
 
 | Posted | Company | Role | Location | Region | Visa situation | Salary | Source |
 |---|---|---|---|---|---|---|---|
 | 2026-11-17 (today) | AfterQuery | [Software Engineering Intern](https://go.vansh.nyc/1li?s=y) | San Francisco, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-17 (today) | Birdseye Security Solutions | [AI Systems Intern](https://go.vansh.nyc/1B7?s=y) | Dallas, TX | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-17 (today) | Birdseye Security Solutions | [Computer Vision Intern](https://go.vansh.nyc/1B8?s=y) | Dallas, TX | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-17 (today) | Prometheus Group | [Web Development Intern](https://go.vansh.nyc/1Bh?s=y) | Raleigh, NC | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-17 (today) | Sedaro | [Compiler Intern, Simulator](https://go.vansh.nyc/1Ba?s=y) | Arlington, VA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-17 (today) | Sedaro | [DevOps Intern](https://go.vansh.nyc/1Be?s=y) | Arlington, VA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-17 (today) | Sedaro | [Software Engineer Intern](https://go.vansh.nyc/1Bb?s=y) | Arlington, VA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-17 (today) | Steel | [Software Engineer Intern - Summer 2027](https://jobs.ashbyhq.com/steel/5fbdbebf-ddb2-4264-a941-3ab6d475208c) | Toronto, Canada | 🌍 Other | ❔ Not stated | — | speedy/INTL |
+| 2026-11-17 (today) | Toyota Research Institute | [Robotics Intern, Agentic Robotics](https://go.vansh.nyc/1Bk?s=y) | Cambridge, MA | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | vansh |
 | 2026-11-16 (1d) | Analog Devices | [Software Engineering Intern, Medical Device & Healthcare Integration](https://go.vansh.nyc/1AV?s=y) | Wilmington, MA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-16 (1d) | Birdseye Security Solutions | [AI Systems Intern](https://go.vansh.nyc/1AX?s=y) | Mississauga, Canada | 🌍 Other | ❔ Not stated | — | vansh |
+| 2026-11-16 (1d) | Birdseye Security Solutions | [Computer Vision Intern](https://go.vansh.nyc/1AY?s=y) | Mississauga, Canada | 🌍 Other | ❔ Not stated | — | vansh |
+| 2026-11-16 (1d) | Birdseye Security Solutions | [Software Developer Intern](https://go.vansh.nyc/1AZ?s=y) | Mississauga, Canada | 🌍 Other | ❔ Not stated | — | vansh |
 | 2026-11-16 (1d) | Bloomberg Industry Group | [Data Analyst Intern](https://go.vansh.nyc/1AF?s=y) | Arlington, VA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Clera | [Full-Stack Software Engineering Intern](https://go.vansh.nyc/1AN?s=y) | New York, NY | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Disney | [Data Engineering Intern](https://go.vansh.nyc/1AL?s=y) | New York, NY | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Fiserv | [Technology Intern, Cybersecurity](https://go.vansh.nyc/1AS?s=y) | Berkeley Heights, NJ | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Fiserv | [Technology Intern, Cybersecurity](https://go.vansh.nyc/1AT?s=y) | Columbus, OH | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-16 (1d) | GlobalFoundries | [Tapeout Engineering Business Products & Engineering Intern](https://go.vansh.nyc/1Bc?s=y) | Austin, TX | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | HexArmor | [Software Engineer Intern](https://go.vansh.nyc/1AQ?s=y) | Atlanta, GA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Highmark Health | [Technical Analyst Intern, enGen Undergraduate](https://go.vansh.nyc/1AK?s=y) | Pittsburgh, PA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
+| 2026-11-16 (1d) | Idaho National Laboratory | [Electric Vehicle Charging Data Analysis Intern](https://go.vansh.nyc/1B6?s=y) | Idaho Falls, ID | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Impulse Space | [Digital Design Engineering Intern, FPGA/ASIC](https://go.vansh.nyc/1Ay?s=y) | Redondo Beach, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | Integration Innovation (i3) | [Embedded Systems Reverse Engineer Intern](https://go.vansh.nyc/1AB?s=y) | Washington, DC | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
 | 2026-11-16 (1d) | KLA | [Firmware Intern](https://go.vansh.nyc/1AJ?s=y) | Milpitas, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
@@ -333,20 +345,8 @@ _+614 older listings not shown (raise `README_MAX_ROWS` to include them)._
 | 2026-11-13 (4d) | PwC | [Deals AI Off-Cycle Internship - Jan - Jun 27](https://pwc.wd3.myworkdayjobs.com/en-US/global_campus_careers/job/Singapore/Deals-AI-Off-Cycle-Internship--Jan---Jun-27-_773718WD) | Singapore | 🌍 Other | ❔ Not stated | — | speedy/AI |
 | 2026-11-13 (4d) | Raytheon | [Software Engineering Intern - Summer 2027](https://globalhr.wd5.myworkdayjobs.com/en-US/rec_rtx_ext_gateway/job/US-FL-MELBOURNE-312--795-W-Nasa-Blvd--BLDG-312/Software-Engineering-Intern--Summer-2027-_01885543) | Melbourne, FL | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
 | 2026-11-13 (4d) | Reliable Robotics | [Flight Software Engineer Intern (Summer 2027)](https://jobs.ashbyhq.com/reliable-robotics/cbd31c94-5a83-4d1e-8252-de67a5e594ed) | Mountain View, CA | 🇺🇸 US | ❔ US F-1/CPT likely | $128K | engine |
-| 2026-11-13 (4d) | Roche | [AI & Digitalisation Intern/Graduate PSD](https://roche.wd3.myworkdayjobs.com/en-US/roche-ext/job/Welwyn/AI---Digitalisation-Intern-Graduate-PSD_202610-127162) | — | 🌍 Other | ❔ Not stated | — | speedy/AI |
-| 2026-11-13 (4d) | Rocket Companies | [Data Analyst Intern - Summer 2027](https://quickenloans.wd5.myworkdayjobs.com/rocket_careers/job/Detroit-MI/Data-Analyst-Intern---Summer-2027_R-083832) | Detroit, MI | 🇺🇸 US | ❔ US F-1/CPT likely | — | engine |
-| 2026-11-13 (4d) | SAS | [Software Developer Intern, Go/Golang](https://go.vansh.nyc/1zC?s=y) | Cary, NC | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
-| 2026-11-13 (4d) | ServiceNow | [Assoc AI Engineering - Cloud Security Automation Intern](https://jobs.smartrecruiters.com/ServiceNow/744000161209600-assoc-ai-engineering-cloud-security-automation-intern?oga=true) | Santa Clara, CA | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
-| 2026-11-13 (4d) | Sia | [Stage de fin d'études - Cybersecurity & AI Trust](https://jobs.smartrecruiters.com/Sia/744000161256251-stage-de-fin-d-etudes-cybersecurity-ai-trust-?oga=true) | Paris, France | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/AI |
-| 2026-11-13 (4d) | Sierra Nevada Corporation | [Software Engineer I - For 2026 Interns Only](https://snc.wd1.myworkdayjobs.com/en-US/snc_external_career_site/job/Lone-Tree-CO/Software-Engineer-I--For-2026-Interns-Only-_R0031346) | Lone Tree, CO | 🇺🇸 US | ❔ US F-1/CPT likely | — | speedy/US |
-| 2026-11-13 (4d) | Sopra Steria I2S | [Stage de fin d’étude - Ingénieur- e IA/ML - Prototypage d’un modèle d…](https://jobs.smartrecruiters.com/SopraSteria1/744000161315400-stage-de-fin-d-etude-ingenieur-e-ia-ml-prototypage-d-un-modele-de-reconnaissance-vocale-des-communications-radio-aeronautique-?oga=true) | Le Plessis-Robinson, France | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/AI |
-| 2026-11-13 (4d) | Sopra Steria I2S | [Werkstudent GenAI & Agentic AI - m/w/d](https://jobs.smartrecruiters.com/SopraSteria1/744000161287429-werkstudent-genai-agentic-ai-m-w-d-?oga=true) | Köln, Germany | 🇪🇺 EU/UK | ❔ EU/UK right to work | — | speedy/AI |
-| 2026-11-13 (4d) | Soros Fund Management | [Trading Intern, Middle and Back Office Dev](https://go.vansh.nyc/1AR?s=y) | New York, NY | 🇺🇸 US | ❔ US F-1/CPT likely | — | vansh |
-| 2026-11-13 (4d) | State Street | [Software Engineering Intern](https://statestreet.wd1.myworkdayjobs.com/en-US/global/job/Hangzhou-China/Software-Engineering-Intern_R-800939) | Hangzhou, China | 🌍 Other | ❔ Not stated | — | speedy/INTL |
-| 2026-11-13 (4d) | State Street | [Software Engineering Intern](https://statestreet.wd1.myworkdayjobs.com/en-US/global/job/Hangzhou-China/Software-Engineering-Intern_R-800953) | Hangzhou, China | 🌍 Other | ❔ Not stated | — | speedy/INTL |
-| 2026-11-13 (4d) | State Street | [Software Engineering Intern](https://statestreet.wd1.myworkdayjobs.com/en-US/equest/job/Hangzhou-China/Software-Engineering-Intern_R-800951) | Hangzhou, China | 🌍 Other | ❔ Not stated | — | speedy/INTL |
 
-_+3387 older listings not shown (raise `README_MAX_ROWS` to include them)._
+_+3388 older listings not shown (raise `README_MAX_ROWS` to include them)._
 
 <!-- LISTINGS:END -->
 
